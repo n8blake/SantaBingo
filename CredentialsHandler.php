@@ -42,11 +42,12 @@ class CredentialsHandler {
 		return false;
 	}
 
-	public function new($email, $password){
+	public function new($email, $name, $password){
 		$email = $this->db->quote($email);
+		$name = $this->db->quote($name);
 		$h = password_hash($password, PASSWORD_DEFAULT);
 		$hash = $this->db->quote($h);
-		$sql = "INSERT INTO `users`(`email`, `hash`) VALUES (". $email . "," . $hash .")";
+		$sql = "INSERT INTO `users`(`email`, `name`, `hash`) VALUES (". $email . "," . $name . "," . $hash .")";
 
 		try {
 			return $this->db->query($sql);

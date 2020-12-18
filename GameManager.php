@@ -4,6 +4,7 @@
 	/**
 	 * 
 	 */
+	
 	class GameManager 
 	{
 		
@@ -11,7 +12,7 @@
 		{
 			# code...
 		}
-		
+
 	}
 
 ?>

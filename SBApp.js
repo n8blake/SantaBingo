@@ -5,7 +5,7 @@ var app = angular.module('SBApp', []);
 app.controller('AppCtrl', ['$scope', function($scope) {
 
 	$scope.snowflakes = 20;
-	$scope.snowing = true;
+	$scope.snowing = false;
 
 	$scope.message = "Ho, ho, ho. Merry Christmas!";
 

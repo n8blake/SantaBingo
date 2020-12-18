@@ -41,6 +41,10 @@
 
 	<div class="container">
 		<div class="d-flex justify-content-center">
+			<h1>SANTA BINGO</h1>
+		</div>
+		
+		<div class="d-flex justify-content-center">
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('red')">RED</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('green')">GREEN</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('yellow')">YELLOW</button>

@@ -62,28 +62,32 @@ if ($email != "" && $password != "") {
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
 
-</head>
-<body class="bg-grad-red">
+	<script type="text/javascript" src="LoginApp.js"></script>
 
+</head>
+<body class="bg-grad-red" ng-app="LoginApp">
+<div ng-controller="AppCtrl">
 	<div class="d-flex justify-content-center">
 		<h1>SANTA BINGO</h1>
 	</div>
 
 	<div ng-if="!isLoggedIn" class="text-center">
 		
-		<form class="form-signin" method="post" action="login.php">
+		<form class="form-signin" method="post" action="login.php" ng-if="(action == 'SIGN IN')">
 			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
 			<label for="inputPassword" class="sr-only">Password</label>
 			<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
 
-			<button class="btn btn-lg btn-outline-light btn-block" type="submit">SIGN IN</button>
+			<button class="btn btn-lg btn-outline-light btn-block" type="submit">{{action}}</button>
+
+		
 
 			<?php
 
  			if($showError){
- 				echo "<br><div class='alert alert-warning'><strong>Oops!</strong> <p>There was a problem logging you in.</p></div>";
+ 				echo "<br><div class='alert alert-danger'><strong>Oops!</strong> <p>There was a problem logging you in.</p></div>";
 
  			}
 
@@ -92,9 +96,27 @@ if ($email != "" && $password != "") {
 		</form>
 
 
+		<form class="form-signin needs-validation" method="post" action="newAccount.php" ng-show="(action == 'CREATE NEW ACCOUNT')">
+			<h1 class="h3 mb-3 font-weight-normal">Create a new account</h1>
+			<label for="newEmail" class="sr-only">Email address</label>
+			<input type="email" id="newEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+			<label for="name" class="sr-only">Name</label>
+			<input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+			<label for="newPassword" class="sr-only">Password</label>
+			<input type="password" id="newPassword" name="password" class="form-control" placeholder="Password" required ng-model="newPassword" ng-blur="validate()">
+			<label for="inputPasswordVerification" class="sr-only">Verifty Password</label>
+			<input type="password" id="inputPasswordVerification" name="passwordVerification" class="form-control" placeholder="Verify Password" required ng-model="newPasswordVerification" >
+			<button class="btn btn-lg btn-outline-light btn-block" type="submit" ng-disabled="newPasswordVerification != newPassword">{{action}}</button>
+		</form>
+		<div class="m-2" ng-hide="(action == 'CREATE NEW ACCOUNT')">
+			<p>OR</p>
+			<a href="#" class="text-light" ng-click="newAccount()" >CREATE A NEW ACCOUNT</a>
+			
+		</div>
+		
 
 	</div>
-
+</div>
 </body>
 </html>
 

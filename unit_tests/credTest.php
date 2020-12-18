@@ -20,15 +20,16 @@
 
 	echo "<br><br> <strong>new entry</strong> <br><br>";
 	$newEmail = "new@katiedeanshop.com";
+	$name = "New Person";
 	$pass = "simplePass";
 
-	$msg = $credHandler->new($newEmail, $pass);
+	$msg = $credHandler->new($newEmail, $name, $pass);
 
 	echo var_dump($msg);
 
 
 	echo "<br><br> <strong>try to add duplicate entry</strong> <br><br>";
-	$msg = $credHandler->new($newEmail, $pass);
+	$msg = $credHandler->new($newEmail, $name, $pass);
 
 	echo var_dump($msg);
 
