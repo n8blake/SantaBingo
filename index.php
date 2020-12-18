@@ -1,8 +1,17 @@
 <?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', 'on');
+	require_once 'debugSettings.php';
+	require_once '../dbinfo/dbcred.php';
+	require_once 'DBSessionHandler.php';
+	$handler = new DBSessionHandler();
+	session_set_save_handler($handler);
+	session_start();
 
-	$login = false;
+	// Check if the user is logged in, if not then redirect him to login page
+	if ( !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ) {
+		header("location: login.php");
+		//var_dump($_SESSION);
+		exit;
+	}
 
 ?>
 
@@ -36,6 +45,7 @@
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('green')">GREEN</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('yellow')">YELLOW</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="toggleSnow()">Toggle Snow</button>
+			<a class="btn btn-block btn-outline-light m-2" href="logout.php">LOGOUT</a>
 		</div>
 	</div>
 
