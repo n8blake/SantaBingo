@@ -24,11 +24,15 @@
 	class Game 
 	{
 		
+		private $gameID;
+		private $active;
+		public $types;
 		public $calledNumbers;
 
 		function __construct()
 		{
 			$this->calledNumbers = [0];
+			$this->gameTypes = ["bingo"];
 		}
 
 		// Return the next number in the game
@@ -50,6 +54,10 @@
 
 		public function getNumbers(){
 			return $this->calledNumbers;
+		}
+
+		public function getTypes(){
+			return $this->types;
 		}
 
 		// standard game
