@@ -43,6 +43,15 @@ class BingoCard {
 		}
 		return $arr;
 	}
+
+	// take a json string and turn it into a card
+	public function setCard($json){
+		$object = json_decode($json);
+		if(isset($object->card)){
+			$this->card = $object->card;
+		}
+	}
+
 }
 
 

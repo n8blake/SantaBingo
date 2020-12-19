@@ -34,7 +34,7 @@
 
 </head>
 <body class="bg-grad-red" ng-app="SBApp">
-<div ng-controller="AppCtrl">
+<div ng-controller="AppCtrl" ng-cloak="">
 	<div class="snowflakes" aria-hidden="true" ng-if="snowing">
 		<div class="snowflake" ng-repeat="x in [].constructor(snowflakes) track by $index">❅</div>
 	</div>	
@@ -43,14 +43,25 @@
 		<div class="d-flex justify-content-center">
 			<h1>SANTA BINGO</h1>
 		</div>
-		
-		<div class="d-flex justify-content-center">
+
+		<div class="d-flex justify-content-center" ng-show="options">
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('red')">RED</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('green')">GREEN</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="changeBG('yellow')">YELLOW</button>
 			<button class="btn btn-block btn-outline-light m-2" ng-click="toggleSnow()">Toggle Snow</button>
 			<a class="btn btn-block btn-outline-light m-2" href="logout.php">LOGOUT</a>
 		</div>
+
+
+		<div class="row">
+			<div class="col" style="text-align: center;" ng-repeat="(k, v) in card">
+				<div style="font-size: 50px;"><strong>{{k}}</strong></div>
+				<div ng-repeat="number in v" style="height: 100px; border-style: solid; border-color: #FFFFFF55;">
+					{{number}}
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 
