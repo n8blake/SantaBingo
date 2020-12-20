@@ -13,6 +13,17 @@
 		exit;
 	}
 
+	require_once('UserManager.php');
+
+	$usrManager = new UserManager();
+
+	if(isset($_SESSION['email'])){
+		if(!isset($_SESSION['role'])){
+			$_SESSION['userObject'] = $usrManager->getUserByEmail($_SESSION['email']);
+			$_SESSION['role'] =  $_SESSION['userObject']['role'];
+		}
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +52,7 @@
 
 	<div class="container">
 		<div class="d-flex justify-content-center">
-			<h1>SANTA BINGO</h1>
+			<h1 class="m-2">SANTA BINGO</h1>
 		</div>
 
 		<div class="d-flex justify-content-center" ng-show="options">
@@ -52,7 +63,39 @@
 			<a class="btn btn-block btn-outline-light m-2" href="logout.php">LOGOUT</a>
 		</div>
 
+		<div class="row m-2">
+			<div style="width: 100%;" class="m-2 p-2">
+				<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;">
+					<div>{{game.status}}</div>
 
+					
+				</div>
+
+				<div class="btn btn-block btn-outline-light m-2 ">
+						<h2 class="">start a game</h2>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row m-2">
+			<div style="width: 100%;">
+				<h3 class="d-flex justify-content-center" style="font-weight: lighter; color: #FF000066;">LOBBY</h3>
+			</div>
+			<div class="col">
+				<div ng-repeat="user in lobby" class="list-group-flush" style="background-color: #00000000; background: none;">
+					<div class="list-group-item" style="background-color: #00000000; background: none;  border-bottom: 1px solid #FF000033;">
+					<div class="d-flex justify-content-center" style="font-weight: lighter; font-size: 16pt;">
+						{{user.name}}
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div><?php 
+		echo json_encode($_SESSION['role']);  
+		echo json_encode($_SESSION['email']);
+		?></div>
 		<div class="row">
 			<div class="col" style="text-align: center;" ng-repeat="(k, v) in card">
 				<div style="font-size: 50px;"><strong>{{k}}</strong></div>

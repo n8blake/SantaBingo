@@ -96,6 +96,7 @@ if ($email != "" && $password != "") {
 		</form>
 
 
+
 		<form class="form-signin needs-validation" method="post" action="newAccount.php" ng-show="(action == 'CREATE NEW ACCOUNT')">
 			<h1 class="h3 mb-3 font-weight-normal">Create a new account</h1>
 			<label for="newEmail" class="sr-only">Email address</label>
@@ -110,10 +111,14 @@ if ($email != "" && $password != "") {
 		</form>
 		<div class="m-2" ng-hide="(action == 'CREATE NEW ACCOUNT')">
 			<p>OR</p>
-			<a href="#" class="text-light" ng-click="newAccount()" >CREATE A NEW ACCOUNT</a>
+			<a href="#" class="text-light" ng-click="toggleAction()" >CREATE A NEW ACCOUNT</a>
 			
 		</div>
-		
+		<div class="m-2" ng-hide="(action == 'SIGN IN')">
+			<p>OR</p>
+			<a href="#" class="text-light" ng-click="toggleAction()" >SIGN IN</a>
+			
+		</div>
 
 	</div>
 </div>

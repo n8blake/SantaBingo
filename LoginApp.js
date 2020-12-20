@@ -9,8 +9,12 @@ app.controller('AppCtrl', ['$scope', function($scope) {
 	$scope.newPassword = "";
 
 
-	$scope.newAccount = function(){
-		$scope.action = "CREATE NEW ACCOUNT";
+	$scope.toggleAction = function(){
+		if($scope.action == "CREATE NEW ACCOUNT"){
+			$scope.action = "SIGN IN";
+		} else {
+			$scope.action = "CREATE NEW ACCOUNT";
+		}
 	};
 
 

@@ -24,20 +24,25 @@
 	class Game 
 	{
 		
-		private $gameID;
-		private $active;
+		public $gameID;
+		public  $active;
 		public $types;
 		public $calledNumbers;
+		private $start_time;
+		private $end_time;
 
 		function __construct()
 		{
 			$this->calledNumbers = [0];
-			$this->gameTypes = ["bingo"];
+			$this->types = ["bingo"];
 		}
 
 		// Return the next number in the game
 		public function callNextNumber(){
 			$newNumber = 0;
+			if(count($this->calledNumbers) >=76){
+				throw new Exception('All Numbers Called.');
+			}
 			do {
 				$newNumber = rand(1, 75);
 			} while(in_array($newNumber, $this->calledNumbers));
@@ -58,6 +63,40 @@
 
 		public function getTypes(){
 			return $this->types;
+		}
+
+		public function addType($type){
+			if(!in_array($type, $this->types)){
+				array_push($this->types, $type);
+			}
+		}
+
+		public function removeType($type){
+			//echo "<br>Removing: " . $type . "<br>";
+			if(in_array($type, $this->types)){
+				//echo "<br>found: " . $type . "<br>";
+				$index = array_search($type, $this->types);
+				//preDump($this->types);
+				unset($this->types[$index]);
+				//preDump($this->types);
+			}
+		}
+
+		public function setGame($game){
+			if( !isset($game["gameID"]) || 
+				!isset($game["game_types"]) ||
+				!isset($game["start_time"]) ||
+				!isset($game["called_numbers"]) ||
+				!isset($game["active"]) 
+			  ){ 
+				throw new Exception("Invalid Game");
+			} 
+			$this->gameID = $game["gameID"];
+			$this->types = json_decode($game["game_types"]);
+			$this->start_time = $game["start_time"];
+			$this->end_time = $game["end_time"];
+			$this->calledNumbers = json_decode($game["called_numbers"]);
+			$this->active = $game["active"];
 		}
 
 		// standard game

@@ -57,7 +57,7 @@ class GameManager {
 	public function new($game){
 		$types = json_encode($game->types);
 		$called_numbers = json_encode($game->calledNumbers);
-		$sql = "INSERT INTO `games` (`gameID`, `start_time`, `end_time`, `game_types`, `called_numbers`, `active`) VALUES (NULL, CURRENT_TIMESTAMP, NULL, ". $types .", ". $called_numbers .", '1')";
+		$sql = "INSERT INTO `games` (`gameID`, `start_time`, `end_time`, `game_types`, `called_numbers`, `active`) VALUES (NULL, CURRENT_TIMESTAMP, NULL, ". $this->db->quote($types) .", ". $this->db->quote($called_numbers) .", '1')";
 
 		try {
 			return $this->db->query($sql);
@@ -68,19 +68,23 @@ class GameManager {
 
 	// update a game
 	public function update($game){
+		///echo "<br> Updating game: " . $game->gameID .". <br>";
 		$types = json_encode($game->types);
 		$called_numbers = json_encode($game->calledNumbers);
-		$sql = "UPDATE `games` SET `game_types`=".$types.",`called_numbers`=".$called_numbers." WHERE `gameID`=" . $this->db->quote($game->gameID);
-
+		$sql = "UPDATE `games` SET `game_types`=".$this->db->quote($types).",`called_numbers`=".$this->db->quote($called_numbers)." WHERE `gameID`=" . $this->db->quote($game->gameID);
+		// echo "<br>";
+		// echo $sql;
+		// echo "<br>";
 		try {
 			return $this->db->query($sql);
 		} catch (PDOException $e) {
+			echo $e->getMessage();
 			return $e->getMessage();
 		}
 	}
 
 	// end a game
-		public function end(){
+		public function end($game){
 		$sql = "UPDATE `games` SET `end_time`=CURRENT_TIMESTAMP, `active`=0 WHERE `gameID`=" . $this->db->quote($game->gameID);
 		try {
 			return $this->db->query($sql);
