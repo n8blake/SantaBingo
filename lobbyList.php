@@ -11,7 +11,7 @@
 					<div class="col "> {{user.name}} <br></div>
 
 					<span class="col " ng-if="user.name == activeUser.name">
-						<button class="btn btn-outline-light m-2 ">Card 1</button>
+						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 1</button>
 						<button class="btn btn-outline-light m-2 ">Card 2</button>
 						<button class="btn btn-outline-light m-2 ">Card 3</button>
 					</span>
@@ -22,3 +22,4 @@
 		</div>
 	</div>
 </div>
+<?php include 'cardModal.html'; ?>
