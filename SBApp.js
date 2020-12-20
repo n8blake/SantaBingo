@@ -137,6 +137,27 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 
 }]);
 
+
+
+
+app.factory('cards', ['$http', function($http){
+	obj = {};
+	cards = [];
+
+	obj.getCardsXHR = function(){
+		return $http({
+			method: 'GET',
+			url: 'getUserCards.php'
+		}).then(function successCallback(response) {
+			//console.log(response.data);
+			cards = response.data;
+		}, function errorCallback(response) {
+			console.log(response);
+		});
+	}
+
+}]);
+
 app.factory('game', ['$q', '$http', function($q, $http){
 	var obj = {};
 	var status = {};
@@ -180,18 +201,6 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		});
 	}
 
-	obj.getCards = function(){
-		return $http({
-			method: 'GET',
-			url: 'bingoTest.php'
-		}).then(function successCallback(response) {
-			console.log(response.data);
-			$scope.card = response.data.card;
-		}, function errorCallback(response) {
-			console.log(response);
-		});
-	}
-
 	obj.startGame = function(){
 		data = {};
 		data.START = true;
@@ -224,7 +233,6 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		);
 	}
 
-
 	return obj;
 
 }]);
@@ -242,7 +250,7 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 		//console.log("Getting Lobby");
 		return $http({
 			method: 'GET',
-			url: 'lobbyTest.php'
+			url: 'getLobby.php'
 		}).then(function successCallback(response) {
 			//console.log(response);
 			lobby = response.data;

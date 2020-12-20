@@ -12,8 +12,8 @@
 
 					<span class="col " ng-if="user.name == activeUser.name">
 						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 1</button>
-						<button class="btn btn-outline-light m-2 ">Card 2</button>
-						<button class="btn btn-outline-light m-2 ">Card 3</button>
+						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 2</button>
+						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 3</button>
 					</span>
 
 				</div>

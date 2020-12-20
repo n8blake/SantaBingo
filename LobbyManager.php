@@ -31,6 +31,18 @@ class LobbyManager
 
 	}
 
+	public function userInLobby($email){
+		$sql = "SELECT `userID` FROM `lobby` WHERE lobby.userID=(SELECT `userID` FROM `users` WHERE users.email=".$this->db->quote($email).")";
+		try {
+			$result = $this->db->query($sql);
+			$data = $result->fetch(PDO::FETCH_ASSOC);
+			if($data) return true;
+			return false;
+		} catch (PDOException $e){
+			return $e->getMessage();
+		}
+	}
+
 	// Return a list of users in the lobby
 	public function getLobby(){
 		$sql = "SELECT lobby.userID as userID, users.name as name, users.role as role, users.email as email FROM lobby JOIN `users` ON users.userID=lobby.userID";
@@ -46,16 +58,12 @@ class LobbyManager
 	}
 
 	// Add a user to the lobby
-	public function addUser($user){
-		if(isset($user->userID)){
-			$userID = $this->db->quote($user->userID);
-			$sql = "INSERT INTO `lobby`(`userID`) VALUES (".$userID.")";
-			try {
-				$result = $this->db->query($sql);
-			} catch (PDOException $e) {
-				return $e->getMessage();
-			}
-			
+	public function addUser($email){
+		$sql = "INSERT INTO `lobby`(`userID`) VALUES ((SELECT `userID` FROM `users` WHERE users.email=".$this->db->quote($email)."))";
+		try {
+			$result = $this->db->query($sql);
+		} catch (PDOException $e) {
+			return $e->getMessage();
 		}
 	}
 
