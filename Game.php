@@ -25,7 +25,7 @@
 	{
 		
 		public $gameID;
-		public  $active;
+		public $active;
 		public $types;
 		public $calledNumbers;
 		private $start_time;

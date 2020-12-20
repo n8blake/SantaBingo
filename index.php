@@ -66,32 +66,31 @@
 		<div class="row m-2">
 			<div style="width: 100%;" class="m-2 p-2">
 				<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;">
-					<div>{{game.status}}</div>
-
+					<p>{{game.status}}</p>
+				</div>
+				<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;" ng-show="game.active">
+					<p>LAST CARD</p>
+					</div>
+				<div class="d-flex justify-content-center m-2" ng-show="game.active">
 					
+					<div class="card" style="background-color: #FFF; width: 250px; height: 250px; right: -5px;">
+						<div class="card-body">
+							<h5 class="card-title" style="font-family: Lato; font-weight: bolder; font-size: 32px;">{{game.lastNumber}}</h5>
+							 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						</div>
+					</div>
 				</div>
-
-				<div class="btn btn-block btn-outline-light m-2 ">
-						<h2 class="">start a game</h2>
-				</div>
+				<?php 
+					if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){
+						include 'managerOptions.php';
+					};
+				?>
 			</div>
 
 		</div>
 
-		<div class="row m-2">
-			<div style="width: 100%;">
-				<h3 class="d-flex justify-content-center" style="font-weight: lighter; color: #FF000066;">LOBBY</h3>
-			</div>
-			<div class="col">
-				<div ng-repeat="user in lobby" class="list-group-flush" style="background-color: #00000000; background: none;">
-					<div class="list-group-item" style="background-color: #00000000; background: none;  border-bottom: 1px solid #FF000033;">
-					<div class="d-flex justify-content-center" style="font-weight: lighter; font-size: 16pt;">
-						{{user.name}}
-					</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<?php include 'lobbyList.php';?>
+
 		<div><?php 
 		echo json_encode($_SESSION['role']);  
 		echo json_encode($_SESSION['email']);

@@ -1,10 +1,10 @@
 $enable-responsive-font-sizes: true;
 
 // Font
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,400;0,500;0,700;0,900;1,200;1,500;1,700;1,900&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,400;0,500;0,700;0,900;1,200;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
-$font-family-base: 'Barlow Condensed', sans-serif;
+$font-family-base: 'Lato', sans-serif;
 
 $body-bg: #000000;
 $body-color: #FFFFFF;
@@ -25,8 +25,8 @@ body, {
 }
 
 h1, h2, h3, h4, h5, h5, .display {
-	font-family: 'Barlow Condensed', sans-serif;
-	font-weight: lighter;
+	font-family: 'Lato', sans-serif;
+	font-weight: bolder;
 }
 
 p {
@@ -175,7 +175,7 @@ p {
 }
 
 
-.modal-content {
+/*.modal-content {
   background-color: #000;
 	background-image: linear-gradient(rgba(20,24,26,1) 80%, rgba(10,10,10,1) 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(80%,#121418), color-stop(100%,#000000)); 
@@ -186,7 +186,7 @@ p {
 
 .modal-header {
 	border-bottom-color: $dark;
-}
+}*/
 
 .snowflake {
   color: #FFFFFF99;

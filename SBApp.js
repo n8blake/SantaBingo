@@ -40,7 +40,8 @@ var app = angular.module('SBApp', [], function($httpProvider){
 	}];
 });
 
-app.controller('AppCtrl', ['$scope', '$http', 'lobby', 'game', function($scope, $http, lobby, game) {
+app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'user', 
+	function($scope, $http, $interval, lobby, game, user) {
 
 	$scope.snowflakes = 20;
 	$scope.snowing = false;
@@ -50,14 +51,7 @@ app.controller('AppCtrl', ['$scope', '$http', 'lobby', 'game', function($scope, 
 	$scope.game = {};
 	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
 
-	lobby.getLobbyXHR().then(function(){
-		$scope.lobby = lobby.getLobby();
-		console.log($scope.lobby);
-	});
-
-	game.getStatusXHR().then(function(){
-		$scope.game.status = game.getStatus();
-	});
+	
 
 	$scope.changeBG = function(color){
 		if(color == 'red'){
@@ -80,17 +74,88 @@ app.controller('AppCtrl', ['$scope', '$http', 'lobby', 'game', function($scope, 
 	};
 
 
-	//getCard();
+	$scope.startGame = function(){
+		game.startGame().then(function(){
+			$scope.game.status = game.getStatus();
+			$scope.game.active = game.isActive();
+			$scope.game.lastNumber = game.getLastCalledNumber();
+		});
+	}
+
+	$scope.nextNumber = function(){
+		game.callNextNumber().then(function(){
+			$scope.game.status = game.getStatus();
+			$scope.game.lastNumber = game.getLastCalledNumber();
+		});
+	}
+
+	$scope.endGame = function(){
+		game.endGame().then(function(){
+			$scope.game.status = game.getStatus();
+			$scope.game.active = game.isActive();
+			$('#endGameModal').modal('hide');
+		});
+	};
+
+
+
+	function refreshLobby(){
+		lobby.getLobbyXHR().then(function(){
+			$scope.lobby = lobby.getLobby();
+			$scope.lobbyTitle = "LOBBY";
+		});
+	}
+
+	function refreshGame(){
+		game.getStatusXHR().then(function(){
+			$scope.game.status = game.getStatus();
+			$scope.game.active = game.isActive();
+			if($scope.game.active){
+				//check for if you are in a win screen...
+				$scope.changeBG('green');
+				$scope.snowing = false;
+			} else {
+				//$scope.snowing = true;
+				$scope.changeBG('red');
+			}
+			$scope.game.lastNumber = game.getLastCalledNumber();
+		});
+	}
+
+	function getUser(){
+		user.getUserXHR().then(function(){
+			$scope.activeUser = user.getUser();
+		});
+	}
+
+	$interval(refreshGame, 3000);
+	$interval(refreshLobby, 30000);
+
+	getUser();
+	refreshGame();
+	refreshLobby();
 
 }]);
 
 app.factory('game', ['$q', '$http', function($q, $http){
 	var obj = {};
 	var status = {};
+	var active;
 	var game = {};
 
 	obj.getStatus = function(){
 		return status;
+	}
+
+	obj.isActive = function(){
+		return active;
+	}
+
+	obj.getLastCalledNumber = function(){
+		if(active){
+			//console.log(game.calledNumbers[game.calledNumbers.length - 1]);
+			return game.calledNumbers[game.calledNumbers.length - 1];
+		}
 	}
 
 	obj.getStatusXHR = function(){
@@ -103,7 +168,11 @@ app.factory('game', ['$q', '$http', function($q, $http){
 				status = response.data.status;
 			}
 			if(response.data.game){
+				//console.log("a game was received");
 				game = response.data.game;
+				active = true;
+			} else {
+				active = false;
 			}
 			
 		}, function errorCallback(response) {
@@ -123,6 +192,39 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		});
 	}
 
+	obj.startGame = function(){
+		data = {};
+		data.START = true;
+		return _gameStatusPost(data);
+	}
+
+	obj.callNextNumber = function(){
+		data = {};
+		data.NEXT = true;
+		return _gameStatusPost(data);
+	}
+
+	obj.endGame = function(){
+		data = {};
+		data.END = true;
+		return _gameStatusPost(data);
+	}
+
+	function _gameStatusPost(data) {
+		url = 'gameStatus.php'
+		return $http.post(url, data).then(
+			function successCallback(response){
+				//console.log(response);
+				//obj.getStatusXHR();
+				// response.data;
+			},
+			function errorCallback(response){
+				error(response.data);
+			}
+		);
+	}
+
+
 	return obj;
 
 }]);
@@ -137,7 +239,7 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 	}
 
 	obj.getLobbyXHR = function(){
-		console.log("Getting Lobby");
+		//console.log("Getting Lobby");
 		return $http({
 			method: 'GET',
 			url: 'lobbyTest.php'
@@ -148,11 +250,31 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 			console.log(response);
 		});
 	}
-
-
-
-	
-
 	return obj;
 }]);
 
+app.factory('user', ['$http', function($http){
+	var obj = {};
+	var user = {};
+
+	obj.getUser = function(){
+		return user;
+	}
+
+	obj.getUserXHR = function(){
+		//console.log("Getting Lobby");
+		return $http({
+			method: 'GET',
+			url: 'getActiveUser.php'
+		}).then(function successCallback(response) {
+			if(response.data.user){
+				user = response.data.user;
+			} else if(response.data.error){
+				console.log(response.data.error);
+			}
+		}, function errorCallback(response) {
+			console.log(response);
+		});
+	}
+	return obj;
+}]);
