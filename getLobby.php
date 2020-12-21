@@ -25,11 +25,12 @@
 	require_once 'Game.php';
 	//require_once 'Lobby.php';
 	require_once 'LobbyManager.php';
-
+	require_once 'gameManager.php';
 
 	$lobbyManager = new LobbyManager();
+	$gameManager = new gameManager();
 
-	if(!$lobbyManager->userInLobby($_SESSION['email'])){
+	if(!$lobbyManager->userInLobby($_SESSION['email']) && $gameManager->userInGame($_SESSION['email'])){
 		$lobbyManager->addUser($_SESSION['email']);
 	}
 

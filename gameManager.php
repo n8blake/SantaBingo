@@ -54,6 +54,20 @@ class GameManager {
 		return false;
 	}
 
+	public function userInGame($email){
+		$sql = "SELECT `userID` FROM `activeGamePlayers` WHERE activeGamePlayers.userID=(SELECT users.userID FROM users WHERE users.email=". $this->db->quote($email) .")"; 
+		try {
+			$result = $this->db->query($sql);
+			$data = $result->fetch(PDO::FETCH_ASSOC);
+			if($data) {
+				return true;
+			} 
+			return false;
+		} catch (PDOException $e) {
+			return $e->getMessage();
+		}
+	}
+
 	public function new($game){
 		$types = json_encode($game->types);
 		$called_numbers = json_encode($game->calledNumbers);
@@ -62,6 +76,27 @@ class GameManager {
 		try {
 			return $this->db->query($sql);
 		} catch (PDOException $e) {
+			return $e->getMessage();
+		}
+	}
+
+	public function moveUsersFromLobbyToGame(){
+		//INSERT `activeGamePlayers` (SELECT * FROM `lobby`)
+		$sql = "INSERT `activeGamePlayers` (SELECT * FROM `lobby`); DELETE FROM `lobby` WHERE 1=1;";
+		try {
+			return $this->db->query($sql);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			return $e->getMessage();
+		}
+	}
+
+	public function moveUsersFromGameToLobby(){
+		$sql = "INSERT `lobby` (SELECT * FROM `activeGamePlayers`); DELETE FROM `activeGamePlayers` WHERE 1=1;";
+		try {
+			return $this->db->query($sql);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
 			return $e->getMessage();
 		}
 	}

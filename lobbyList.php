@@ -11,9 +11,10 @@
 					<div class="col "> {{user.name}} <br></div>
 
 					<span class="col " ng-if="user.name == activeUser.name">
-						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 1</button>
-						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 2</button>
-						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal">Card 3</button>
+						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal" ng-repeat="card in cards"
+						ng-click="showCard(card)"
+						>Card {{cards.indexOf(card) + 1}}</button>
+						
 					</span>
 
 				</div>
@@ -22,4 +23,4 @@
 		</div>
 	</div>
 </div>
-<?php include 'cardModal.html'; ?>
+<?php include 'editCardModal.html'; ?>

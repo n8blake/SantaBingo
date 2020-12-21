@@ -44,6 +44,7 @@
 			$game = new Game();
 			$manager->new($game);
 			$game->setGame($manager->getCurrentGame());
+			// empty lobby and put users in activeGamePlayers
 		}
 		if($active && isset($_POST['NEXT']) && isset($_SESSION['role'])){
 			$game->callNextNumber();
@@ -51,6 +52,7 @@
 		}
 		if($active && isset($_POST['END']) && isset($_SESSION['role'])){
 			$manager->end($game);
+			// empty activeGamePlayser and put users in lobby
 		}
 	}
 

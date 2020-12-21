@@ -40,8 +40,8 @@ var app = angular.module('SBApp', [], function($httpProvider){
 	}];
 });
 
-app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'user', 
-	function($scope, $http, $interval, lobby, game, user) {
+app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'user', 'cards',
+	function($scope, $http, $interval, lobby, game, user, cards) {
 
 	$scope.snowflakes = 20;
 	$scope.snowing = false;
@@ -135,6 +135,22 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 	refreshGame();
 	refreshLobby();
 
+	cards.getCardsXHR().then(function(){
+		$scope.cards = cards.getCards();
+	});
+
+	$scope.showCard = function(card){
+		$scope.activeCard = card;
+	}
+
+	$scope.replaceCard = function(cardIndex){
+		console.log("replaceing card " + (cardIndex + 1));
+		cards.replace(cardIndex).then(function(){
+			$scope.cards = cards.getCards();
+			$scope.activeCard = $scope.cards[cardIndex];
+		});
+	}
+
 }]);
 
 
@@ -143,6 +159,22 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 app.factory('cards', ['$http', function($http){
 	obj = {};
 	cards = [];
+
+	obj.getCards = function(){
+		return cards;
+	}
+
+	obj.replace = function(cardIndex){
+		return $http({
+			method: 'GET',
+			url: 'getUserCards.php?replace=' + (cardIndex + 1)
+		}).then(function successCallback(response) {
+			//console.log(response.data);
+			cards = response.data;
+		}, function errorCallback(response) {
+			console.log(response);
+		});
+	}
 
 	obj.getCardsXHR = function(){
 		return $http({
@@ -156,7 +188,10 @@ app.factory('cards', ['$http', function($http){
 		});
 	}
 
+	return obj;
+
 }]);
+
 
 app.factory('game', ['$q', '$http', function($q, $http){
 	var obj = {};
