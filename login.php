@@ -35,6 +35,14 @@ if ($email != "" && $password != "") {
 
         $_SESSION["loggedin"] = true;
         $_SESSION['email'] = $email;
+
+        require_once('UserManager.php');
+        if(isset($_SESSION['email'])){
+			if(!isset($_SESSION['role'])){
+					$_SESSION['userObject'] = $usrManager->getUserByEmail($_SESSION['email']);
+					$_SESSION['role'] =  $_SESSION['userObject']['role'];
+				}
+		}
         header("location: index.php");
 
     } else {
