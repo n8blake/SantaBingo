@@ -128,7 +128,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		});
 	}
 
-	$interval(refreshGame, 3000);
+	$interval(refreshGame, 300);
 	$interval(refreshLobby, 30000);
 
 	getUser();
