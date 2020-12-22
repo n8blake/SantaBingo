@@ -30,7 +30,7 @@
 	$lobbyManager = new LobbyManager();
 	$gameManager = new gameManager();
 
-	if(!$lobbyManager->userInLobby($_SESSION['email']) && $gameManager->userInGame($_SESSION['email'])){
+	if(!$lobbyManager->userInLobby($_SESSION['email']) && !$gameManager->userInGame($_SESSION['email'])){
 		$lobbyManager->addUser($_SESSION['email']);
 	}
 
