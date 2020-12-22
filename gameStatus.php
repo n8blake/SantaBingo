@@ -4,6 +4,7 @@
 	require_once 'gameManager.php';
 	require_once '../dbinfo/dbcred.php';
 	require_once 'DBSessionHandler.php';
+	require_once 'CardManager.php';
 	$handler = new DBSessionHandler();
 	session_set_save_handler($handler);
 	session_start();
@@ -17,13 +18,13 @@
 		exit;
 	}
 	
-	$manager = new GameManager();
+	$gameManager = new GameManager();
 
 
 	try {
 		$game = new Game();
 		// get the game status
-		$game->setGame($manager->getCurrentGame());
+		$game->setGame($gameManager->getCurrentGame());
 	} catch (Exception $e){
 		$game = false;
 	}
@@ -38,19 +39,19 @@
 	if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){
 		if(!$active && isset($_POST['START']) && isset($_SESSION['role'])){
 			$game = new Game();
-			$manager->new($game);
-			$game->setGame($manager->getCurrentGame());
+			$gameManager->new($game);
+			$game->setGame($gameManager->getCurrentGame());
 			// empty lobby and put users in activeGamePlayers
-			$manager->moveUsersFromLobbyToGame();
+			$gameManager->moveUsersFromLobbyToGame();
 		}
 		if($active && isset($_POST['NEXT']) && isset($_SESSION['role'])){
 			$game->callNextNumber();
-			$manager->update($game);
+			$gameManager->update($game);
 		}
 		if($active && isset($_POST['END']) && isset($_SESSION['role'])){
-			$manager->end($game);
+			$gameManager->end($game);
 			// empty activeGamePlayers and put users in lobby
-			$manager->moveUsersFromGameToLobby();
+			$gameManager->moveUsersFromGameToLobby();
 		}
 	}
 

@@ -16,7 +16,7 @@ class DBSessionHandler implements SessionHandlerInterface {
 
         // Create DB connection
         $this->db = $this->dbConnect();
-        $this->expiry = time() + (int) ini_get('session.gc_maxlifetime') * 60 * 30;
+        $this->expiry = time() + (int) ini_get('session.gc_maxlifetime') * 60 * 30 * 20;
     }
 
     private function dbConnect() {
