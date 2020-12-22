@@ -279,6 +279,31 @@
 			}
 		}
 
+		public 	function checkForBingos($players, $cardManager){
+			$game = $this;
+			$bingos = array();
+			foreach ($game->types as $type) {
+				foreach ($players as $player) {
+					$email = $player->email;
+				    $cards = $cardManager->getCards($email);
+				    foreach ($cards as $card) {
+				    	$check = $game->checkCard($type, $card);
+				    	$bingoData = array();
+				    	if($check){
+				    		if(!isset($bingos[$email])){
+				    			$bingos[$email] = array();
+				    		}
+				    		$_data = $game->bingo($card);
+
+				    		array_push($bingos[$email], $_data);
+				    	}
+				    }
+
+				}
+			}
+			return $bingos;
+		}
+
 	}
 
 	

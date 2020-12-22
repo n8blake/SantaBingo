@@ -68,38 +68,38 @@
 	//$game->callNextNumber();
 	//$gameManager->update($game);
 
-	function checkForBingos($game, $players, $cardManager){
-		$bingos = array();
-		foreach ($game->types as $type) {
-			// echo " \n\nchecking for '.$type.':";
-			foreach ($players as $player) {
-				$email = $player->email;
-			    $cards = $cardManager->getCards($email);
-			    //$bingos[$email] = array();
-			    foreach ($cards as $card) {
-			    	// echo " \ncheck:";
-			    	// echo json_encode($card);
-			    	//$check = $game->bingo($card);
-			    	$check = $game->checkCard($type, $card);
-			    	// echo " \ncheck:";
-			    	// echo json_encode($check);
-			    	$bingoData = array();
-			    	if($check){
-			    		if(!isset($bingos[$email])){
-			    			$bingos[$email] = array();
-			    		}
-			    		$_data = $game->bingo($card);
-			    		// echo " email: " . $email . " > ";
-			    		// echo json_encode($_data);
-			    		array_push($bingos[$email], $_data);
-			    	}
-			    	//array_push($bingos[$email], $bingoData);
-			    }
+	// function $game->checkForBingos($players, $cardManager){
+	// 	$bingos = array();
+	// 	foreach ($game->types as $type) {
+	// 		// echo " \n\nchecking for '.$type.':";
+	// 		foreach ($players as $player) {
+	// 			$email = $player->email;
+	// 		    $cards = $cardManager->getCards($email);
+	// 		    //$bingos[$email] = array();
+	// 		    foreach ($cards as $card) {
+	// 		    	// echo " \ncheck:";
+	// 		    	// echo json_encode($card);
+	// 		    	//$check = $game->bingo($card);
+	// 		    	$check = $game->checkCard($type, $card);
+	// 		    	// echo " \ncheck:";
+	// 		    	// echo json_encode($check);
+	// 		    	$bingoData = array();
+	// 		    	if($check){
+	// 		    		if(!isset($bingos[$email])){
+	// 		    			$bingos[$email] = array();
+	// 		    		}
+	// 		    		$_data = $game->bingo($card);
+	// 		    		// echo " email: " . $email . " > ";
+	// 		    		// echo json_encode($_data);
+	// 		    		array_push($bingos[$email], $_data);
+	// 		    	}
+	// 		    	//array_push($bingos[$email], $bingoData);
+	// 		    }
 
-			}
-		}
-		return $bingos;
-	}
+	// 		}
+	// 	}
+	// 	return $bingos;
+	// }
 
 
 	// Play 25 rounds, check if a user has got bingo
@@ -112,7 +112,7 @@
 	
 	echo " \n\ngame:";
 	echo json_encode($game);
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo "\n\nbingos:";
 	echo json_encode($bingos);
 	echo "\n \n";
@@ -134,7 +134,7 @@
 	$game->removeType('bingo');
 
 	echo " \n\nxes bingos:\n";
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo json_encode($bingos);
 	echo " \n\nCall 30 more numbers.\n";
 	for($i = 0; $i < 30; $i++){
@@ -142,7 +142,7 @@
 		$gameManager->update($game);
 	}
 
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	//echo " \ngame:";
 	//echo json_encode($game);
 
@@ -159,7 +159,7 @@
 	echo " \n\nchange type to window:";
 	$game->setType('window');
 
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo " \nwindow bingos:";
 	echo json_encode($bingos);
 
@@ -170,7 +170,7 @@
 		
 	}
 
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo " \nwindow bingos after:";
 	echo json_encode($bingos);
 
@@ -181,7 +181,7 @@
 	echo " \n\nchange type to blackout:";
 	$game->setType('blackout');
 
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo " \nblackout bingos:\n";
 	echo json_encode($bingos);
 
@@ -196,7 +196,7 @@
 		
 	}
 
-	$bingos = checkForBingos($game, $players, $cardManager);
+	$bingos = $game->checkForBingos($players, $cardManager);
 	echo "\nblackout bingos after all number called (everyone should win):\n";
 	echo json_encode($bingos);
 

@@ -8,10 +8,9 @@
 	$handler = new DBSessionHandler();
 	session_set_save_handler($handler);
 	session_start();
-
+	header('Content-Type: application/json');
 
 	if ( !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ) {
-		header('Content-Type: application/json');
 		$status = "Unauthenticated access attempt.";
 		$response = array('status' => $status);
 		echo json_encode($response);
@@ -19,7 +18,6 @@
 	}
 	
 	$gameManager = new GameManager();
-
 
 	try {
 		$game = new Game();
@@ -68,7 +66,6 @@
 
 	$response = array('game' => $game, 'status' => $status);
 
-	header('Content-Type: application/json');
 	echo json_encode($response);
 
 ?>
