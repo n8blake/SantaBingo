@@ -7,10 +7,10 @@
 	 *  Create a Bingo Game
 	 *  
 	 *  calledNumbers: an array of integers, with the first being 0
-	 *	
-	 *	a card: an object with 
-	 *
-	 *
+	 *	gameID: Int, database id of game
+	 *	type: array of strings for each game type: bingo, xes, window, blackout 
+	 *	start_time, timestamp from database of when game started
+	 *	end_time, timestamp from database of when game ended
 	 *
 
 	 *  Initialize the middle value (n2), to be 0
