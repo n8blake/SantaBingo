@@ -4,7 +4,7 @@
 	require_once 'gameManager.php';
 	require_once '../dbinfo/dbcred.php';
 	require_once 'DBSessionHandler.php';
-	require_once 'CardManager.php';
+	require_once 'LobbyManager.php';
 	$handler = new DBSessionHandler();
 	session_set_save_handler($handler);
 	session_start();
@@ -18,6 +18,16 @@
 	}
 	
 	$gameManager = new GameManager();
+	$lobbyManager = new LobbyManager();
+	$lobby = $lobbyManager->getLobby();
+
+	if(!$lobbyManager->userInLobby($_SESSION['email']) && !$gameManager->userInGame($_SESSION['email'])){
+		try {
+			$lobbyManager->addUser($_SESSION['email']);
+		} catch (Exception $e){
+			$error = $e->getMessage();
+		}
+	}
 
 	try {
 		$game = new Game();
@@ -53,18 +63,21 @@
 		}
 	}
 
-	if(!$game){
+	if(!$active){
 		$status = "The game has not started.";
+		$response = array('status' => $status, 'lobby' => $lobby, 'active' => $active);
 	} else {
+		require_once 'CardManager.php';
 		$status = "A game is in progress.";
-		// check the activeGamePlayers and see if 
-		// a player with thier boards have scored
-		// in the current game.
+		$cardManager = new CardManager();
+		$players = $gameManager->getActiveGamePlayers();
+		$bingos = $game->checkForBingos($players, $cardManager);
+		$response = array('game' => $game, 'status' => $status, 'lobby' => $lobby, 'players' => $players, 'bingos' => $bingos, 'active' => $active);
 	}
 
-	$data = $_POST;
-
-	$response = array('game' => $game, 'status' => $status);
+	if(isset($error)){
+		$response['error'] = $error;
+	}
 
 	echo json_encode($response);
 
