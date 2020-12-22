@@ -17,6 +17,7 @@ class BingoCard {
 	//['S':[1, 2, 3, 4, 5], 'a':[16], 
 
 	public $card;
+	public $id;
 
 	function __construct()
 	{
@@ -28,6 +29,7 @@ class BingoCard {
 			"A"=> $this->fiveRandomValues(61, 75),
 		);
 		$this->card["n"][2] = 0;
+		$this->id = uniqid();
 	}
 
 	// return an array of 5 random, unique integers

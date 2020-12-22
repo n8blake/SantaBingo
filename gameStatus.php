@@ -17,10 +17,6 @@
 		exit;
 	}
 	
-
-	// get the current active game
-
-	// if no game is active, 
 	$manager = new GameManager();
 
 
@@ -45,6 +41,7 @@
 			$manager->new($game);
 			$game->setGame($manager->getCurrentGame());
 			// empty lobby and put users in activeGamePlayers
+			$manager->moveUsersFromLobbyToGame();
 		}
 		if($active && isset($_POST['NEXT']) && isset($_SESSION['role'])){
 			$game->callNextNumber();
@@ -52,7 +49,8 @@
 		}
 		if($active && isset($_POST['END']) && isset($_SESSION['role'])){
 			$manager->end($game);
-			// empty activeGamePlayser and put users in lobby
+			// empty activeGamePlayers and put users in lobby
+			$manager->moveUsersFromGameToLobby();
 		}
 	}
 
@@ -60,6 +58,9 @@
 		$status = "The game has not started.";
 	} else {
 		$status = "A game is in progress.";
+		// check the activeGamePlayers and see if 
+		// a player with thier boards have scored
+		// in the current game.
 	}
 
 	$data = $_POST;

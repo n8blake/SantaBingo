@@ -30,12 +30,23 @@
 		public $calledNumbers;
 		private $start_time;
 		private $end_time;
+		//protected $gameManager;
 
 		function __construct()
 		{
 			$this->calledNumbers = [0];
 			$this->types = ["bingo"];
 		}
+
+		// public function setGameManager($manager){
+		// 	$this->gameManager = $manager;
+		// }
+
+		// public function save(){
+		// 	if(isset($this->gameManager)){
+		// 		$gameManager->update($this);
+		// 	}
+		// }
 
 		// Return the next number in the game
 		public function callNextNumber(){
@@ -56,6 +67,9 @@
 			sort($this->calledNumbers);
 		}
 
+		public function resetNumbers(){
+			$this->calledNumbers = [0];
+		}
 
 		public function getNumbers(){
 			return $this->calledNumbers;
@@ -66,6 +80,10 @@
 		}
 
 		public function addType($type){
+			// echo "\n";
+			// echo json_encode($type);
+			// echo "\n";
+			// echo json_encode($this->types);
 			if(!in_array($type, $this->types)){
 				array_push($this->types, $type);
 			}
@@ -76,10 +94,19 @@
 			if(in_array($type, $this->types)){
 				//echo "<br>found: " . $type . "<br>";
 				$index = array_search($type, $this->types);
-				//preDump($this->types);
-				unset($this->types[$index]);
-				//preDump($this->types);
+				//echo $index;
+				$_types = array();
+				for($i = 0; $i < count($this->types); $i++){
+					if($i !== $index){
+						array_push($_types, $this->types[$i]);
+					}
+				}
+				$this->types = $_types;
 			}
+		}
+
+		public function setType($type){
+			$this->types = [$type];
 		}
 
 		public function setGame($game){
@@ -118,6 +145,9 @@
 			}
 			$bingos = [];
 			$bingos['bingo'] = false;
+			if(isset($_card->id)){
+				$bingos['cardID'] = $_card->id;
+			}
 			// check of a column win
 			$bingoColumns = [];
 			foreach ($card as $letter => $column) {
@@ -195,8 +225,17 @@
 			$bingos['columns'] = $bingoColumns;
 			$bingos['rows'] = $bingoRows;
 			$bingos['diagonals'] = $bingoDiagonals;
+
 			//$bingos['bingo'] = false;
 			return $bingos;
+		}
+
+		public function normalBingo($card){
+			return (
+				count($this->bingo($card)['diagonals']) > 0 ||
+				count($this->bingo($card)['columns']) > 0 ||
+				count($this->bingo($card)['rows'])
+			);
 		}
 
 		// X 
@@ -223,7 +262,22 @@
 			return count($this->bingo($card)['columns']) == 5;
 		}
 
-
+		public function checkCard($type, $card){
+			switch ($type) {
+				case 'xes':
+					return $this->xes($card);
+					break;
+				case 'window':
+					return $this->window($card);
+					break;
+				case 'blackout':
+					return $this->blackout($card);
+					break;
+				default:
+					return $this->normalBingo($card);
+					break;
+			}
+		}
 
 	}
 

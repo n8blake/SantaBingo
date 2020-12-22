@@ -2,8 +2,8 @@
 
 require_once 'debugSettings.php';
 require_once '../dbinfo/dbcred.php';
-require_once ('Game.php');
-
+require_once 'Game.php';
+require_once 'User.php';
 	/* Game Manager
 	*
 	*
@@ -99,6 +99,20 @@ class GameManager {
 			echo $e->getMessage();
 			return $e->getMessage();
 		}
+	}
+
+	// Return a list of users in the active game
+	public function getActiveGamePlayers(){
+		$sql = "SELECT activeGamePlayers.userID as userID, users.name as name, users.role as role, users.email as email FROM activeGamePlayers JOIN `users` ON users.userID=activeGamePlayers.userID";
+		//$sql = "SELECT * FROM `lobby`";
+		$result = $this->db->query($sql);
+		//preDump($result);
+		//$data = $result->fetch(PDO::FETCH_ASSOC);
+		$data = $result->fetchAll(PDO::FETCH_CLASS, "User");
+		if ($data) {
+			return $data;
+		} 
+		return false;
 	}
 
 	// update a game
