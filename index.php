@@ -50,9 +50,9 @@
 		<div class="snowflake" ng-repeat="x in [].constructor(snowflakes) track by $index">❅</div>
 	</div>	
 
-	<div class="container">
+	<div class="container" style="margin-top: 20px;">
 		<div class="d-flex justify-content-center">
-			<h1 class="m-2">SANTA BINGO</h1>
+			<h1 class="m-2" >SANTA BINGO</h1>
 		</div>
 
 		<div class="d-flex justify-content-center" ng-show="options">
@@ -78,8 +78,8 @@
 		<?php include 'lobbyList.php';?>
 
 		<div><?php 
-		echo json_encode($_SESSION['role']);  
-		echo json_encode($_SESSION['email']);
+		//echo json_encode($_SESSION['role']);  
+		//echo json_encode($_SESSION['email']);
 		?></div>
 
 	</div>

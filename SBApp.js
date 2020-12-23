@@ -50,6 +50,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 
 	$scope.game = {};
 	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
+	$scope.game.active = false;
 
 	$scope.toggleSnow = function(){
 		$scope.snowing = !$scope.snowing;
@@ -62,6 +63,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		});
 		game.getStatusXHR().then(function(){
 			$scope.game.status = game.getStatus();
+			$scope.game.active = game.isActive();
 		});
 	}
 

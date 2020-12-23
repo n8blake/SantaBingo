@@ -38,7 +38,7 @@
 				</h5>
 				<div class="list-group-flush" style="max-height: 300px; overflow-y: auto;">
 					<div class="list-group-item" style="border-top: solid; border-width: 0.5px; border-color: #DDD; " ng-repeat="number in game.calledNumbers | orderBy:'calledNumbers':reverse">
-						<div class="d-flex justify-content-between">
+						<div class="d-flex justify-content-between" >
 							<div style="font-weight: bolder; font-size: 32px; margin-left: 30px;">{{number | letterForNumber}}</div>
 							<img style="width: 25%; height: 25%; margin-right: 30px;" ng-src="./SVG/{{number}}.svg">	
 						</div>
@@ -63,8 +63,8 @@
 		<div class="d-flex justify-content-between" style="width: 300px; margin: auto;">
 			<button class="btn m-2 " ng-repeat="card in cards" 
 			ng-class="{'btn-outline-light':(activeCard == card), 'text-secondary':(card != activeCard)}"
-			ng-click="showCard(card)">
-				Card {{cards.indexOf(card) + 1}}
+			ng-click="showCard(card)" style="font-weight: lighter; border-width: 0.5px;">
+				CARD {{cards.indexOf(card) + 1}}
 			</button>
 		</div>
 		<div class="d-flex justify-content-center">

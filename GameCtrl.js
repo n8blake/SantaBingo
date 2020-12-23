@@ -2,7 +2,7 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($sc
 
 	$scope.game = {};
 	$scope.currentBGColor = 'red';
-	$scope.calledNumbersListShow = true;
+	$scope.calledNumbersListShow = false;
 
 	$scope.columns = ['S', 'a', 'n', 't', 'A'];
 	$scope.rows = [0, 1, 2, 3, 4];
