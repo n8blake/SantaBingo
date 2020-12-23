@@ -11,8 +11,9 @@
 				</button>
 			</div>
 			<div class="modal-body" >
-				<p>Email: <?php echo($_SESSION['email']);?></p>
-				<p>Role: <?php  echo($_SESSION['role']);?></p>
+				<p class="h5">Name: <?php echo($_SESSION['userObject']['name']);?></p>
+				<p class="h5">Email: <?php echo($_SESSION['email']);?></p>
+				<p class="h5">Role: <?php  echo($_SESSION['role']);?></p>
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
 				<a class="btn text-warning" ng-click="replaceCard(cards.indexOf(activeCard))" style="width: 45%;" href="logout.php">LOGOUT</a>

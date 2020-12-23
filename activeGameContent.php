@@ -60,15 +60,15 @@
 		<div class="col" style="margin-top: 20px;">
 		
 		<div style="width: 100%; height: 100%; max-width: 500px; background-color: #FFF; color: #000; padding: 20px; margin: auto; border-radius: 0.5em;" ng-include="'bingoCardTable.html'"></div>
-		<div class="d-flex justify-content-between" style="width: 300px; margin: auto;">
+		<div class="d-flex justify-content-between" style="max-width: 300px; margin: auto;">
 			<button class="btn m-2 " ng-repeat="card in cards" 
 			ng-class="{'btn-outline-light':(activeCard == card), 'text-secondary':(card != activeCard)}"
-			ng-click="showCard(card)" style="font-weight: lighter; border-width: 0.5px;">
+			ng-click="showCard(card)" style=" border-width: 0.5px;">
 				CARD {{cards.indexOf(card) + 1}}
 			</button>
 		</div>
 		<div class="d-flex justify-content-center">
-			<button class="btn btn-outline-secondary" data-toggle="modal" data-target="#editCardModal" style="font-weight: lighter;" ng-if="!game.active">GET NEW CARD</button>
+			<button class="btn btn-outline-secondary" data-toggle="modal" data-target="#editCardModal" ng-if="!game.active">GET NEW CARD</button>
 		</div>
 		<?php include 'editCardModal.html'; ?>
 	</div>
