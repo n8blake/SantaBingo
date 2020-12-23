@@ -43,6 +43,7 @@
 
 	<script type="text/javascript" src="SBApp.js"></script>
 	<script type="text/javascript" src="GameCtrl.js"></script>
+	<script type="text/javascript" src="NotificationCtrl.js"></script>
 </head>
 <body class="bg-grad-red" ng-app="SBApp">
 <div ng-controller="AppCtrl" ng-cloak="">
