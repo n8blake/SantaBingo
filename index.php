@@ -21,10 +21,8 @@
 	$usrManager = new UserManager();
 
 	if(isset($_SESSION['email'])){
-		if(!isset($_SESSION['role'])){
-			$_SESSION['userObject'] = $usrManager->getUserByEmail($_SESSION['email']);
-			$_SESSION['role'] =  $_SESSION['userObject']['role'];
-		}
+		$_SESSION['userObject'] = $usrManager->getUserByEmail($_SESSION['email']);
+		$_SESSION['role'] =  $_SESSION['userObject']['role'];
 	}
 
 ?>
