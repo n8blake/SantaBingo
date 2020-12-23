@@ -49,7 +49,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 	$scope.options = false;
 
 	$scope.game = {};
-	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
+	//$scope.game.status = "Ho, ho, ho! Merry Christmas!";
 	$scope.game.active = false;
 
 	$scope.toggleSnow = function(){
@@ -61,10 +61,22 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 			$scope.lobby = lobby.getLobby();
 			$scope.lobbyTitle = "LOBBY";
 		});
-		game.getStatusXHR().then(function(){
-			$scope.game.status = game.getStatus();
+		
+	}
+
+	function refreshPlayers(){
+		if(game.isActive()){
+			game.getStatusXHR().then(function(){
+				$scope.players = game.getPlayers();
+			});
+		}
+	}
+
+	function refreshGameStatus(){
+		if($scope.game.active != game.isActive()){
 			$scope.game.active = game.isActive();
-		});
+			$scope.players = game.getPlayers();
+		}
 	}
 
 	function getUser(){
@@ -75,10 +87,12 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 
 	
 	$interval(refreshLobby, 10000);
-
+	$interval(refreshGameStatus, 300);
+	//$interval(refreshPlayers, 10000);
 	getUser();
 	
 	refreshLobby();
+	refreshGameStatus();
 
 	cards.getCardsXHR().then(function(){
 		$scope.cards = cards.getCards();
@@ -139,8 +153,8 @@ app.factory('game', ['$q', '$http', function($q, $http){
 	var game = {};
 	var lobby = {};
 	var players = {};
-	var bingos = {};
-
+	var bingos = [];
+	var log = false;
 	var error = false;
 
 	obj.getStatus = function(){
@@ -177,6 +191,9 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		return error;
 	}
 
+	obj.getBingos = function(){
+		return bingos;
+	}
 
 	obj.getStatusXHR = function(){
 		return $http({
@@ -194,11 +211,15 @@ app.factory('game', ['$q', '$http', function($q, $http){
 				error = response.data.error;
 			}
 			if(response.data.game){
+				if(log){
+					console.log(response.data.game);
+					log = false;
+				}
 				//console.log("a game was received");
 				game = response.data.game;
 				players = response.data.players;
-				bingos = response.bingos;
-				
+				bingos = response.data.bingos;
+				//notifications.setRawData(bingos);
 			}
 			if(response.data.active){
 				active = response.data.active;
@@ -296,6 +317,8 @@ app.factory('user', ['$http', function($http){
 	}
 	return obj;
 }]);
+
+
 
 
 app.filter('letterForNumber', function() {

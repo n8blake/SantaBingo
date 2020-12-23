@@ -95,6 +95,6 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($sc
 		}
 	});
 
-	$interval(refreshGame, 2000);
+	$interval(refreshGame, 1000);
 
 }]);
