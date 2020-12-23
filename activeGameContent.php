@@ -1,5 +1,5 @@
 <div ng-controller="GameCtrl" class="row">
-	<div class="col-md-6" ng-show="game.active || (activeUser.role == 'manager') || (activeUser.role == 'overlord')">
+	<div class="col-md-6" ng-show="game.active || (activeUser.role == 'manager') || (activeUser.role == 'overlord')" style="min-height: 100px;">
 	<div ng-show="game.active" >
 	<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;" ng-hide="calledNumbersListShow">
 		<p>LAST CARD</p>

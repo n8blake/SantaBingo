@@ -1,8 +1,8 @@
-<button class="btn btn-block btn-outline-light m-2 " ng-hide="game.active" ng-click="startGame()" style="z-index: 10;">
+<button class="btn btn-block btn-outline-light m-2 ml-n1" ng-hide="game.active" ng-click="startGame()" style="position: relative; top: 45%; margin-bottom: 30px;">
 	<strong>start a game</strong>
 </button>
 
-<div style="margin-top: 40px;" ng-show="game.active">
+<div style="margin-top: 40px;" ng-show="game.active" class="ml-n2">
 	<button class="btn btn-block btn-outline-light m-2 "  ng-click="nextNumber()" style="z-index: 10;">
 		<strong>next card</strong>
 	</button>

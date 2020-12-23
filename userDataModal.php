@@ -15,7 +15,7 @@
 				<p>Role: <?php  echo($_SESSION['role']);?></p>
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
-				<a type="button" class="btn text-warning" ng-click="replaceCard(cards.indexOf(activeCard))" style="width: 45%;" href="logout.php">LOGOUT</a>
+				<a class="btn text-warning" ng-click="replaceCard(cards.indexOf(activeCard))" style="width: 45%;" href="logout.php">LOGOUT</a>
 				<button type="button" class="btn text-secondary" style="width: 45%;" data-dismiss="modal" >DONE</button>
 			</div>
 		</div>
