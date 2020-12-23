@@ -2,9 +2,12 @@
 	require_once 'debugSettings.php';
 	require_once '../dbinfo/dbcred.php';
 	require_once 'DBSessionHandler.php';
-	$handler = new DBSessionHandler();
-	session_set_save_handler($handler);
-	session_start();
+	if(!isset($GLOBALS['loggingIn']) || !$GLOBALS['loggingIn']){
+		$handler = new DBSessionHandler();
+		session_set_save_handler($handler);
+		session_start();
+	}
+	
 
 	// Check if the user is logged in, if not then redirect him to login page
 	if ( !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ) {

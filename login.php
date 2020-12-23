@@ -44,6 +44,7 @@ if ($email != "" && $password != "") {
 					$_SESSION['role'] =  $_SESSION['userObject']['role'];
 				}
 		}
+		$GLOBALS['loggingIn'] = true;
         header("location: index.php");
 
     } else {
