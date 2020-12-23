@@ -1,4 +1,4 @@
-<div class="row m-2" ng-hide="game.active" >
+<div class="row m-2" ng-hide="game.active" style="position: relative; top: 80px; margin-top: 50px; margin-bottom: 20px;">
 	<div style="width: 100%;">
 		<h3 class="d-flex justify-content-center" style="font-weight: lighter; color: #FF000066;">{{lobbyTitle}}</h3>
 	</div>

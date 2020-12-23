@@ -1,6 +1,7 @@
-app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($scope, $interval, game, cards){
+app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', function($scope, $interval, game, cards, user){
 
 	$scope.game = {};
+	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
 	$scope.currentBGColor = 'red';
 	$scope.calledNumbersListShow = false;
 
@@ -44,6 +45,10 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($sc
 		}
 	}
 
+	user.getUserXHR().then(function(){
+		$scope.activeUser = user.getUser();
+	});
+
 
 	function refreshGame(){
 		return game.getStatusXHR().then(function(){
@@ -55,9 +60,11 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($sc
 			}
 			if($scope.game.active && $scope.currentBGColor != 'green'){
 				//check for if you are in a win screen...
+				$scope.currentBGColor = 'green';
 				changeBG('green');
 				$scope.snowing = false;
-			} else if($scope.currentBGColor != 'red') {
+			} else if(!$scope.game.active && $scope.currentBGColor != 'red') {
+				$scope.currentBGColor = 'red';
 				//$scope.snowing = true;
 				changeBG('red');
 			}
@@ -88,9 +95,11 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', function($sc
 	});
 
 	refreshGame().then(function(){
-		if($scope.game.calledNumbers.length > 1){
-			for(var i = 0; i < $scope.game.calledNumbers.length; i++){
-				$scope.mark($scope.game.calledNumbers[i]);
+		if($scope.game.calledNumbers != undefined){
+			if($scope.game.calledNumbers.length > 1){
+				for(var i = 0; i < $scope.game.calledNumbers.length; i++){
+					$scope.mark($scope.game.calledNumbers[i]);
+				}
 			}
 		}
 	});

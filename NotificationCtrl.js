@@ -6,14 +6,18 @@ app.controller('NotificationCtrl', ['$scope','$interval', 'game', 'notificaitons
 
 
 	$scope.notification = {};
-	$scope.notification.title = "Winner!";
-	$scope.notification.type = 'win';
 
 	$scope.unread = {};
 	$scope.read = {};
 	$scope.players = {};
 
+	//$('#notificationAlert').alert('close');
+	$scope.alertShow = false;
+
+	var delay = false;
+
 	function refreshNotifications(){
+		if(!delay){
 		notificaitons.getRawData().then(function(){
 			//console.log("getting raw data");
 			$scope.game.status = game.getStatus();
@@ -44,23 +48,39 @@ app.controller('NotificationCtrl', ['$scope','$interval', 'game', 'notificaitons
 				}
 				//console.log($scope.players[i].name + " got " + bingos + " bingos");
 			}
-			//console.log($scope.unread);
+			console.log($scope.unread);
 			if($scope.notification.winners.length > 0){
 				$scope.notification.title = "Winner!";
 				$scope.notification.type = 'win';
-				$('#notificationModal').modal('show');
+				$scope.alertShow = true;
+				//$('#notificationAlert').alert();
+				//$('#notificationModal').modal('show');
 			}
 		});
+		}
+	}
+
+	function readNotifications(){
+		delay = true;
+		notificaitons.readNotifications();
+		$scope.notification = {};
+		$scope.alertShow = false;
+		delay = false;
 	}
 
 	$interval(refreshNotifications, 2000);
-
+	//$interval(readNotifications, 15000);
 	//$('#notificationModal').modal('show');
 
 	refreshNotifications();
 
 	$scope.readNotifications = function(){
-		
+		// move unread to read
+		// set unread to empty...
+		readNotifications();
+		//notificaitons.readNotifications();
+		//$scope.notification = {};
+		//$scope.alertShow = false;
 	}
 
 }]);
@@ -73,6 +93,7 @@ app.factory('notificaitons', ['$http', function($http){
 	players = {};
 	game = {};
 	log = true;
+	reading = false;
 
 	obj.getUnread = function(){
 		return unread;
@@ -84,6 +105,59 @@ app.factory('notificaitons', ['$http', function($http){
 
 	obj.getPlayers = function(){
 		return players;
+	}
+
+	obj.readNotifications = function(){
+		reading = true;
+		console.log('before');
+		console.log(unread);
+		console.log(read);
+		for(var i = 0; i < players.length; i++){
+			email = players[i].email;
+			for(const property in unread[email]){
+				console.log(unread[email][property]);
+				if(read[email][property].columns == undefined){
+					read[email][property].columns = [];
+				}
+				if(read[email][property].rows == undefined){
+					read[email][property].rows = [];
+				}
+				if(read[email][property].diagonals == undefined){
+					read[email][property].diagonals = [];
+				}
+
+				for(var c = 0; c < unread[email][property].columns.length; c++){
+					var unReadColumn = unread[email][property].columns[c];
+					if(read[email][property].columns.indexOf(unReadColumn) == -1){
+						read[email][property].columns.push(unReadColumn);
+					}
+				}
+
+				for(var r = 0; r < unread[email][property].rows.length; r++){
+					var row = unread[email][property].rows[r];
+					if(read[email][property].rows.indexOf(row) == -1){
+						read[email][property].rows.push(row);
+					}
+				}
+
+				for(var d = 0; d < unread[email][property].diagonals.length; d++){
+					var diag = unread[email][property].diagonals[d];
+					if(read[email][property].diagonals.indexOf(diag) == -1){
+						read[email][property].diagonals.push(diag);
+					}
+				}
+
+				//read[email][property].columns = read[email][property].columns.concat(read[email][property].columns, unread[email][property].columns);
+				//read[email][property].rows = read[email][property].rows.concat(read[email][property].rows, unread[email][property].rows);
+				//read[email][property].diagonals = read[email][property].diagonals.concat(read[email][property].diagonals, unread[email][property].diagonals);
+			}
+			unread[email] = 0;
+			//unread[email] = {};
+		}
+		console.log('after');
+		console.log(unread);
+		console.log(read);
+		reading = false;
 	}
 
 	function getStatusXHR(){
@@ -129,14 +203,16 @@ app.factory('notificaitons', ['$http', function($http){
 		for(var p = 0; p < players.length; p++){
 			var email = players[p].email;
 			//console.log(email);
-			if(unread[email] == undefined) unread[email] = {};
+			if(unread[email] == undefined || unread[email] == 0) unread[email] = {};
 			if(read[email] == undefined) read[email] = {};
-			if(rawData[email] != undefined){
+			if(rawData[email] != undefined && !reading){
 
 				for(var i = 0; i < rawData[email].length; i++){
 					var cardID = rawData[email][i].cardID;
 					//console.log(cardID);
-
+					if(cardID == undefined){
+						break;
+					}
 					if(read[email][cardID] == undefined){
 						read[email][cardID] = {};
 						read[email][cardID].columns = [];
@@ -163,12 +239,12 @@ app.factory('notificaitons', ['$http', function($http){
 					// console.log("hello from 126");
 						for(var c = 0; c < rawCols.length; c++){
 							var col = rawCols[c];
-							console.log(col);
-							// if(read[email][cardID].columns.indexOf(col) == -1){
-							// 	if(unread[email][cardID].columns.indexOf(col) == -1){
-							// 		unread[email][cardID].columns.push(col);
-							// 	}
-							// }
+							//console.log(col);
+							if(read[email][cardID].columns.indexOf(col) == -1){
+								if(unread[email][cardID].columns.indexOf(col) == -1){
+									unread[email][cardID].columns.push(col);
+								}
+							}
 						}
 
 

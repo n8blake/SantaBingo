@@ -148,7 +148,7 @@ app.factory('cards', ['$http', function($http){
 
 app.factory('game', ['$q', '$http', function($q, $http){
 	var obj = {};
-	var status = {};
+	var status = "Ho, ho, ho! Merry Christmas!";
 	var active;
 	var game = {};
 	var lobby = {};

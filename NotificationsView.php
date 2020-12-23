@@ -1,5 +1,12 @@
-<div ng-controller="NotificationCtrl" style="width: 100%; text-align: center;">
-	<p>{{game.status}}</p>
+<div ng-controller="NotificationCtrl" style="width: 100%; text-align: center;" ng-cloak="">
+	<p ng-hide="notification.type == 'win'">{{game.status}}</p>
+	<div class="alert alert-dismissible fade show" id="notificationAlert" role="alert" style="background-color: #ADD9AA;" ng-show="alertShow">
+		<strong class="text-dark" ng-repeat="winner in notification.winners"><div>{{winner.name}} got SANTA<span ng-if="winner.bingoCount > 1"> {{winner.bingoCount}} times</span>!</div></strong>
+		
+		<button type="button" class="close text-dark" ng-click="readNotifications()">
+		    <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
 	<!-- notification modal -->
 	<div class="modal fade" id="notificationModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="notificationLabel" aria-hidden="true" style="color: #333;">
 	<div class="modal-dialog modal-dialog-centered">
@@ -8,10 +15,6 @@
 				<h5 class="modal-title" id="notificationModalLabel">
 					{{notification.title}}
 				</h5>
-				
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
 			</div>
 			<div class="modal-body" >
 				<div ng-if="notification.type == 'win'">
