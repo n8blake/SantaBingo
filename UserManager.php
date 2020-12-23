@@ -2,7 +2,7 @@
 
 require_once 'debugSettings.php';
 require_once '../dbinfo/dbcred.php';
-require_once('user.php');
+//require_once('User.php');
 
 /**
  * 
