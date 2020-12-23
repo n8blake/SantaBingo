@@ -161,6 +161,10 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		return status;
 	}
 
+	obj.getGameObject = function(){
+		return game;
+	}
+
 	obj.isActive = function(){
 		return active;
 	}
@@ -247,6 +251,13 @@ app.factory('game', ['$q', '$http', function($q, $http){
 	obj.endGame = function(){
 		data = {};
 		data.END = true;
+		return _gameStatusPost(data);
+	}
+
+	obj.changeGame = function(type){
+		data = {};
+		data.CHANGE_TYPE = true;
+		data.type = type;
 		return _gameStatusPost(data);
 	}
 

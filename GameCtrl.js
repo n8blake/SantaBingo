@@ -2,6 +2,7 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 
 	$scope.game = {};
 	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
+	$scope.game.type = "waiting...";
 	$scope.currentBGColor = 'red';
 	$scope.calledNumbersListShow = false;
 
@@ -16,6 +17,7 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 			$scope.game.active = game.isActive();
 			$scope.game.calledNumbers = game.getCalledNumbers();
 			$scope.game.lastNumber = $scope.game.calledNumbers[$scope.game.calledNumbers.length - 1];
+			$scope.game.type = game.getGameObject().types[0];
 			refreshGame();
 		});
 	}
@@ -52,13 +54,34 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 	});
 
 
+	$scope.activeGameType = 'bingo';
+
+	$scope.setActiveGameType = function(type){
+		//console.log(type);
+		$scope.activeGameType = type;
+	}
+
+	$scope.changeGame = function(){
+		var type = $scope.activeGameType;
+		game.changeGame(type).then(function(){
+			$('#changeGameModal').modal('hide');
+			refreshGame();
+			//$scope.game.type = game.getGameObject().types[0];
+			//$scope.activeGameType = game.getGameObject().types[0];
+		});
+	}
+
 	function refreshGame(){
 		return game.getStatusXHR().then(function(){
 			if($scope.game.status != game.getStatus()){
 				$scope.game.status = game.getStatus();
+				$scope.game.type = game.getGameObject().types[0];
+				$scope.activeGameType = game.getGameObject().types[0];
 			}
 			if($scope.game.active != game.isActive()){
 				$scope.game.active = game.isActive();
+				$scope.game.type = game.getGameObject().types[0];
+				$scope.activeGameType = game.getGameObject().types[0];
 			}
 			if($scope.game.active && $scope.currentBGColor != 'green'){
 				//check for if you are in a win screen...

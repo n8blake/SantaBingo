@@ -56,6 +56,11 @@
 			$game->callNextNumber();
 			$gameManager->update($game);
 		}
+		if($active && isset($_POST['CHANGE_TYPE']) && isset($_POST['type'])){
+			$type = htmlspecialchars($_POST['type']);
+			$game->setType($type);
+			$gameManager->update($game);
+		}
 		if($active && isset($_POST['END']) && isset($_SESSION['role'])){
 			$gameManager->end($game);
 			// empty activeGamePlayers and put users in lobby
@@ -68,7 +73,7 @@
 		$response = array('status' => $status, 'lobby' => $lobby, 'active' => $active);
 	} else {
 		require_once 'CardManager.php';
-		$status = "A game is in progress.";
+		$status = "A game is in progress. Game type: " . $game->types[0];
 		$cardManager = new CardManager();
 		$players = $gameManager->getActiveGamePlayers();
 		$bingos = $game->checkForBingos($players, $cardManager);
