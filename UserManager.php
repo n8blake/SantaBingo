@@ -10,7 +10,7 @@ require_once '../dbinfo/dbcred.php';
 class UserManager
 {
 	
-	protected $db;
+	private $db;
 
 	function __construct()
 	{
@@ -20,7 +20,7 @@ class UserManager
 	private function dbConnect() {
 
 		try {
-			$db = new PDO('mysql:host=localhost;dbname=santa', DB_USERNAME, DB_PASSWORD);
+			$db = new PDO('mysql:host=localhost;dbname='.DB_NAME, DB_USERNAME, DB_PASSWORD);
 			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			return $db;
 		} catch (PDOException $e) {
@@ -31,7 +31,7 @@ class UserManager
 	}
 
 	public function getUserByEmail($email){
-		//$email = $this->db->quote($email);
+		$email = $this->db->quote($email);
 		$sql = "SELECT userID, name, role, email FROM `users` WHERE `email`=" . $email;
 		try {
 			$result = $this->db->query($sql);
