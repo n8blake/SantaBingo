@@ -42,7 +42,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
 
 	<script type="text/javascript" src="SBApp.js"></script>
-
+	<script type="text/javascript" src="GameCtrl.js"></script>
 </head>
 <body class="bg-grad-red" ng-app="SBApp">
 <div ng-controller="AppCtrl" ng-cloak="">
@@ -68,22 +68,8 @@
 				<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;">
 					<p>{{game.status}}</p>
 				</div>
-				<div class="d-flex justify-content-center m-2" style="font-weight: lighter; color: #FFFFFF66;" ng-show="game.active">
-					<p>LAST CARD</p>
-					</div>
-				<div class="d-flex justify-content-center m-2" ng-show="game.active">
-					
-					<div class="card" style="background-color: #FFF; width: 250px; height: 250px; right: -5px;">
-						<div class="card-body">
-							<h5 class="card-title" style="font-family: Lato; font-weight: bolder; font-size: 32px;">{{game.lastNumber}}</h5>
-							 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-						</div>
-					</div>
-				</div>
 				<?php 
-					if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){
-						include 'managerOptions.php';
-					};
+					include 'activeGameContent.php';
 				?>
 			</div>
 
@@ -95,14 +81,6 @@
 		echo json_encode($_SESSION['role']);  
 		echo json_encode($_SESSION['email']);
 		?></div>
-		<div class="row">
-			<div class="col" style="text-align: center;" ng-repeat="(k, v) in card">
-				<div style="font-size: 50px;"><strong>{{k}}</strong></div>
-				<div ng-repeat="number in v" style="height: 100px; border-style: solid; border-color: #FFFFFF55;">
-					{{number}}
-				</div>
-			</div>
-		</div>
 
 	</div>
 

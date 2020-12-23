@@ -51,74 +51,17 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 	$scope.game = {};
 	$scope.game.status = "Ho, ho, ho! Merry Christmas!";
 
-	
-
-	$scope.changeBG = function(color){
-		if(color == 'red'){
-			$("body").removeClass("bg-grad-yellow");
-			$("body").removeClass("bg-grad-green");
-			$("body").addClass("bg-grad-red"); 
-		} else if(color == 'green'){
-			$("body").removeClass("bg-grad-yellow");
-			$("body").removeClass("bg-grad-red");
-			$("body").addClass("bg-grad-green"); 
-		} else {
-			$("body").removeClass("bg-grad-red");
-			$("body").removeClass("bg-grad-green");
-			$("body").addClass("bg-grad-yellow"); 
-		}
-	}
-
 	$scope.toggleSnow = function(){
 		$scope.snowing = !$scope.snowing;
 	};
-
-
-	$scope.startGame = function(){
-		game.startGame().then(function(){
-			$scope.game.status = game.getStatus();
-			$scope.game.active = game.isActive();
-			$scope.game.lastNumber = game.getLastCalledNumber();
-		});
-	}
-
-	$scope.nextNumber = function(){
-		game.callNextNumber().then(function(){
-			$scope.game.status = game.getStatus();
-			$scope.game.lastNumber = game.getLastCalledNumber();
-		});
-	}
-
-	$scope.endGame = function(){
-		game.endGame().then(function(){
-			$scope.game.status = game.getStatus();
-			$scope.game.active = game.isActive();
-			$('#endGameModal').modal('hide');
-		});
-	};
-
-
 
 	function refreshLobby(){
 		lobby.getLobbyXHR().then(function(){
 			$scope.lobby = lobby.getLobby();
 			$scope.lobbyTitle = "LOBBY";
 		});
-	}
-
-	function refreshGame(){
 		game.getStatusXHR().then(function(){
 			$scope.game.status = game.getStatus();
-			$scope.game.active = game.isActive();
-			if($scope.game.active){
-				//check for if you are in a win screen...
-				$scope.changeBG('green');
-				$scope.snowing = false;
-			} else {
-				//$scope.snowing = true;
-				$scope.changeBG('red');
-			}
-			$scope.game.lastNumber = game.getLastCalledNumber();
 		});
 	}
 
@@ -128,28 +71,22 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		});
 	}
 
-	$interval(refreshGame, 300);
-	$interval(refreshLobby, 30000);
+	
+	$interval(refreshLobby, 10000);
 
 	getUser();
-	refreshGame();
+	
 	refreshLobby();
 
 	cards.getCardsXHR().then(function(){
 		$scope.cards = cards.getCards();
 	});
 
-	$scope.showCard = function(card){
-		$scope.activeCard = card;
-	}
+	
 
-	$scope.replaceCard = function(cardIndex){
-		console.log("replaceing card " + (cardIndex + 1));
-		cards.replace(cardIndex).then(function(){
-			$scope.cards = cards.getCards();
-			$scope.activeCard = $scope.cards[cardIndex];
-		});
-	}
+
+
+	//$scope.number = 5;
 
 }]);
 
@@ -198,6 +135,11 @@ app.factory('game', ['$q', '$http', function($q, $http){
 	var status = {};
 	var active;
 	var game = {};
+	var lobby = {};
+	var players = {};
+	var bingos = {};
+
+	var error = false;
 
 	obj.getStatus = function(){
 		return status;
@@ -214,6 +156,26 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		}
 	}
 
+	obj.getCalledNumbers = function(){
+		if(active){
+			//console.log(game.calledNumbers[game.calledNumbers.length - 1]);
+			return game.calledNumbers;
+		}
+	}
+
+	obj.getLobby = function(){
+		return lobby;
+	}
+
+	obj.getPlayers = function(){
+		return players;
+	}
+
+	obj.error = function(){
+		return error;
+	}
+
+
 	obj.getStatusXHR = function(){
 		return $http({
 			method: 'GET',
@@ -223,10 +185,21 @@ app.factory('game', ['$q', '$http', function($q, $http){
 			if(response.data.status){
 				status = response.data.status;
 			}
+			if(response.data.lobby){
+				lobby = response.data.lobby;
+			}
+			if(response.data.error){	
+				error = response.data.error;
+			}
 			if(response.data.game){
 				//console.log("a game was received");
 				game = response.data.game;
-				active = true;
+				players = response.data.players;
+				bingos = response.bingos;
+				
+			}
+			if(response.data.active){
+				active = response.data.active;
 			} else {
 				active = false;
 			}
@@ -263,7 +236,7 @@ app.factory('game', ['$q', '$http', function($q, $http){
 				// response.data;
 			},
 			function errorCallback(response){
-				error(response.data);
+				console.log(response.data);
 			}
 		);
 	}
@@ -321,3 +294,41 @@ app.factory('user', ['$http', function($http){
 	}
 	return obj;
 }]);
+
+
+app.filter('letterForNumber', function() {
+	return function(x) {
+		x = parseInt(x);
+		//console.log(x);
+		var letter = '';
+		if(x > 0 && x < 16){
+			letter = 'S';
+		} else if(x >= 16 && x < 31){
+			letter = 'a';
+		} else if((x >= 31 && x < 46) || (x == 0)){
+			letter = 'n';
+		} else if(x >= 46 && x < 61){
+			letter = 't';
+		} else {
+			letter = 'A';
+		}
+		return letter;
+	};
+});
+
+ function changeBG(color){
+	if(color == 'red'){
+		$("body").removeClass("bg-grad-yellow");
+		$("body").removeClass("bg-grad-green");
+		$("body").addClass("bg-grad-red"); 
+	} else if(color == 'green'){
+		$("body").removeClass("bg-grad-yellow");
+		$("body").removeClass("bg-grad-red");
+		$("body").addClass("bg-grad-green"); 
+	} else {
+		$("body").removeClass("bg-grad-red");
+		$("body").removeClass("bg-grad-green");
+		$("body").addClass("bg-grad-yellow"); 
+	}
+}
+

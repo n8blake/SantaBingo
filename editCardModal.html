@@ -3,19 +3,78 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editCardModalLabel">Card {{cards.indexOf(activeCard) + 1}}</h5>
+				<h5 class="modal-title" id="editCardModalLabel">
+					<div>Replace card {{cards.indexOf(activeCard) + 1}} ?</div>
+					<p class="text-danger">This action cannot be undone.</p>
+				</h5>
+				
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body" >
-				<div style="width: 100%;  padding-top: 100%; border-style: solid; border-color: #000; border-width: 1px;">
-					{{activeCard}}
-				</div>
+				
+					<table class="bingoCard">
+						<thead>
+							<tr >
+								<th class="bingoCardHeader">S</th>
+								<th class="bingoCardHeader">a</th>
+								<th class="bingoCardHeader">n</th>
+								<th class="bingoCardHeader">t</th>
+								<th class="bingoCardHeader">A</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr class="bingoCardRow">
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['S'][0]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['a'][0]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['n'][0]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['t'][0]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['A'][0]}}.svg"></td>
+							</tr>
+							
+							<tr class="bingoCardRow">
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['S'][1]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['a'][1]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['n'][1]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['t'][1]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['A'][1]}}.svg"></td>
+							</tr>
+							
+							<tr class="bingoCardRow">
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['S'][2]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['a'][2]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['n'][2]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['t'][2]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['A'][2]}}.svg"></td>
+							</tr>
+							
+							<tr class="bingoCardRow">
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['S'][3]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['a'][3]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['n'][3]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['t'][3]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['A'][3]}}.svg"></td>
+							</tr>
+							
+							<tr class="bingoCardRow">
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['S'][4]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['a'][4]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['n'][4]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['t'][4]}}.svg"></td>
+								<td class="bingCell"><img width="50" height="50" ng-src="./SVG/{{activeCard.card['A'][4]}}.svg"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="text-danger d-flex justify-content-center" >
+						<small class="m-2 text-secondary text-monospace">CARD ID: {{activeCard.id}}</small>
+					</div>
+				
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
 				<button type="button" class="btn text-warning" ng-click="replaceCard(cards.indexOf(activeCard))" style="width: 45%;">GET NEW CARD</button>
-				<button type="button" class="btn text-secondary" style="width: 45%;" data-dismiss="modal" >DONE</button>
+				<button type="button" class="btn text-secondary" style="width: 45%;" data-dismiss="modal" >CANCEL</button>
 			</div>
 		</div>
 	</div>

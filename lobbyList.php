@@ -8,14 +8,7 @@
 
 				<div class="row " style="font-weight: lighter; font-size: 16pt; align-content: center;">
 
-					<div class="col "> {{user.name}} <br></div>
-
-					<span class="col " ng-if="user.name == activeUser.name">
-						<button class="btn btn-outline-light m-2 " data-toggle="modal" data-target="#editCardModal" ng-repeat="card in cards"
-						ng-click="showCard(card)"
-						>Card {{cards.indexOf(card) + 1}}</button>
-						
-					</span>
+					<div class="col "> {{user.name}} </div>
 
 				</div>
 
@@ -23,4 +16,3 @@
 		</div>
 	</div>
 </div>
-<?php include 'editCardModal.html'; ?>

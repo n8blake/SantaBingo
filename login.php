@@ -37,9 +37,10 @@ if ($email != "" && $password != "") {
         $_SESSION['email'] = $email;
 
         require_once('UserManager.php');
+        $userManager = new UserManager();
         if(isset($_SESSION['email'])){
 			if(!isset($_SESSION['role'])){
-					$_SESSION['userObject'] = $usrManager->getUserByEmail($_SESSION['email']);
+					$_SESSION['userObject'] = $userManager->getUserByEmail($_SESSION['email']);
 					$_SESSION['role'] =  $_SESSION['userObject']['role'];
 				}
 		}
