@@ -24,7 +24,7 @@ class CardManager
 	private function dbConnect() {
 
 		try {
-			$db = new PDO('mysql:host=localhost;dbname=santa', DB_USERNAME, DB_PASSWORD);
+			$db = new PDO('mysql:host=localhost;dbname='.DB_NAME, DB_USERNAME, DB_PASSWORD);
 			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			return $db;
 		} catch (PDOException $e) {
