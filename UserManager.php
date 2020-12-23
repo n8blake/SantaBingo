@@ -31,7 +31,7 @@ class UserManager
 	}
 
 	public function getUserByEmail($email){
-		$email = $this->db->quote($email);
+		//$email = $this->db->quote($email);
 		$sql = "SELECT userID, name, role, email FROM `users` WHERE `email`=" . $email;
 		try {
 			$result = $this->db->query($sql);
