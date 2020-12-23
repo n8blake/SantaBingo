@@ -40,8 +40,10 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 	$scope.marks = [];
 
 	$scope.mark = function(number){
+		if($scope.game.calledNumbers != undefined){
 		if($scope.game.calledNumbers.indexOf(number) > -1){
 			$scope.marks.push(number);
+		}
 		}
 	}
 

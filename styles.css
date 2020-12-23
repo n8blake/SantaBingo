@@ -10141,6 +10141,12 @@ td.bingoCell img {
   height: 50px;
 }
 
+@media only screen and (max-width: 400px) {
+  td.bingoCell img {
+    width: 32px;
+    height: 32px;
+  }
+}
 @-webkit-keyframes snowflakes-fall {
   0% {
     top: -10%;

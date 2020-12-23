@@ -57,9 +57,9 @@
 	?>
 	</div>
 	
-		<div class="col-md-6" style="margin-top: 20px;">
+		<div class="col" style="margin-top: 20px;">
 		
-		<div style="width: 100%; height: 100%; background-color: #FFF; color: #000; padding: 20px; margin: auto; border-radius: 0.5em;" ng-include="'bingoCardTable.html'"></div>
+		<div style="width: 100%; height: 100%; max-width: 500px; background-color: #FFF; color: #000; padding: 20px; margin: auto; border-radius: 0.5em;" ng-include="'bingoCardTable.html'"></div>
 		<div class="d-flex justify-content-between" style="width: 300px; margin: auto;">
 			<button class="btn m-2 " ng-repeat="card in cards" 
 			ng-class="{'btn-outline-light':(activeCard == card), 'text-secondary':(card != activeCard)}"
