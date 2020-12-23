@@ -49,8 +49,9 @@
 	        $_SESSION["loggedin"] = true;
 	        $_SESSION['email'] = $email;
        		header("location: index.php");
+       		exit;
 	    } else {
-	        header("location: login.php?");
+	        //header("location: login.php");
 	    }
 	}
 
