@@ -48,7 +48,7 @@ app.controller('NotificationCtrl', ['$scope','$interval', 'game', 'notificaitons
 				}
 				//console.log($scope.players[i].name + " got " + bingos + " bingos");
 			}
-			console.log($scope.unread);
+			//console.log($scope.unread);
 			if($scope.notification.winners.length > 0){
 				$scope.notification.title = "Winner!";
 				$scope.notification.type = 'win';
@@ -109,13 +109,13 @@ app.factory('notificaitons', ['$http', function($http){
 
 	obj.readNotifications = function(){
 		reading = true;
-		console.log('before');
-		console.log(unread);
-		console.log(read);
+		// console.log('before');
+		// console.log(unread);
+		// console.log(read);
 		for(var i = 0; i < players.length; i++){
 			email = players[i].email;
 			for(const property in unread[email]){
-				console.log(unread[email][property]);
+				//console.log(unread[email][property]);
 				if(read[email][property].columns == undefined){
 					read[email][property].columns = [];
 				}
@@ -154,9 +154,9 @@ app.factory('notificaitons', ['$http', function($http){
 			unread[email] = 0;
 			//unread[email] = {};
 		}
-		console.log('after');
-		console.log(unread);
-		console.log(read);
+		// console.log('after');
+		// console.log(unread);
+		// console.log(read);
 		reading = false;
 	}
 
