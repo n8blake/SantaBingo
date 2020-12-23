@@ -18,7 +18,7 @@
 
 	require_once 'CardManager.php';
 	require_once 'BingoCard.php';
-	require_once 'GameManager.php';
+	require_once 'gameManager.php';
 
 	$cardManager = new CardManager();
 	$cards = $cardManager->getCards($_SESSION['email']);
