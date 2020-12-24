@@ -5,9 +5,17 @@
 	require_once '../dbinfo/dbcred.php';
 	require_once 'DBSessionHandler.php';
 	require_once 'LobbyManager.php';
-	$handler = new DBSessionHandler();
-	session_set_save_handler($handler);
-	session_start();
+
+	$error = "";
+
+	try{
+		$handler = new DBSessionHandler();
+		session_set_save_handler($handler);
+		session_start();
+	} catch (Exception $e){
+		$error = $e->getMessage();
+	}
+	
 	header('Content-Type: application/json');
 
 	if ( !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ) {

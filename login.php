@@ -32,15 +32,13 @@ if ($email != "") {
 	$credentialsHandler = new CredentialsHandler();
 
     if ($credentialsHandler->validate($email)) {
-
-		$handler = new DBSessionHandler();
 		try{
+			$handler = new DBSessionHandler();
 			session_set_save_handler($handler);
+			session_start();
 		} catch (Exception $e){
 			$errorDetails = $e->getMessage();
 		}
-		
-        session_start();
 
         $_SESSION["loggedin"] = true;
         $_SESSION['email'] = $email;
