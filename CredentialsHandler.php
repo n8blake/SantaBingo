@@ -65,7 +65,7 @@ class CredentialsHandler {
 		//$h = password_hash($password, PASSWORD_DEFAULT);
 		//$hash = $this->db->quote($h);
 		$sql = "INSERT INTO `users`(`email`, `name`) VALUES (". $email . "," . $name . ")";
-		echo $sql;
+		//echo $sql;
 		try {
 			return $this->db->query($sql);
 		} catch (PDOException $e) {
