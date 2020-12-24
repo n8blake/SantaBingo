@@ -6,7 +6,7 @@ require_once 'CredentialsHandler.php';
 require_once '../dbinfo/dbcred.php';
 
 $showError = false;
-
+$errorDetails = "";
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 	header("location: index.php");
 	exit;
@@ -34,7 +34,12 @@ if ($email != "") {
     if ($credentialsHandler->validate($email)) {
 
 		$handler = new DBSessionHandler();
-		session_set_save_handler($handler);
+		try{
+			session_set_save_handler($handler);
+		} catch (Exception $e){
+			$errorDetails = $e->getMessage();
+		}
+		
         session_start();
 
         $_SESSION["loggedin"] = true;
@@ -115,7 +120,9 @@ if ($email != "") {
 			<?php
 
  			if($showError){
- 				echo "<br><div class='alert alert-danger'><strong>Oops!</strong> <p>There was a problem logging you in. Make sure you have a name filled in.</p></div>";
+ 				echo "<br><div class='alert alert-danger'><strong>Oops!</strong> <p>There was a problem logging you in. Make sure you have a name filled in.</p>
+ 				<pre>".$errorDetails."</pre>
+ 				</div>";
  			}
 
 		?>
