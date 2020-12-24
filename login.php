@@ -57,9 +57,13 @@ if ($email != "") {
     } else if($name != ""){
         $credentialsHandler->new($email, $name);
 	    if ($credentialsHandler->validate($email)) {
-			$handler = new DBSessionHandler();
-			session_set_save_handler($handler);
-	        session_start();
+			try{
+				$handler = new DBSessionHandler();
+				session_set_save_handler($handler);
+				session_start();
+			} catch (Exception $e){
+				$errorDetails = $e->getMessage();
+			}
 
 	        $_SESSION["loggedin"] = true;
 	        $_SESSION['email'] = $email;
