@@ -76,13 +76,17 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 		return game.getStatusXHR().then(function(){
 			if($scope.game.status != game.getStatus()){
 				$scope.game.status = game.getStatus();
-				$scope.game.type = game.getGameObject().types[0];
-				$scope.activeGameType = game.getGameObject().types[0];
+				if(game.getGameObject().types != undefined){
+					$scope.game.type = game.getGameObject().types[0];
+					$scope.activeGameType = game.getGameObject().types[0];
+				}
 			}
 			if($scope.game.active != game.isActive()){
 				$scope.game.active = game.isActive();
-				$scope.game.type = game.getGameObject().types[0];
-				$scope.activeGameType = game.getGameObject().types[0];
+				if(game.getGameObject().types != undefined){
+					$scope.game.type = game.getGameObject().types[0];
+					$scope.activeGameType = game.getGameObject().types[0];
+				}
 			}
 			if($scope.game.active && $scope.currentBGColor != 'green'){
 				//check for if you are in a win screen...
