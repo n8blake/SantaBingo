@@ -5,11 +5,13 @@
 	<div class="col">
 		<div ng-repeat="user in lobby" class="list-group-flush" style="background-color: #00000000; background: none;">
 			<div class="list-group-item" style="background-color: #00000000; background: none;  border-bottom: 1px solid #FF000033;">
-
 				<div class="row " style="font-weight: 300; font-size: 16pt; align-content: center;">
-
 					<div class="col "> {{user.name}} </div>
-
+				<?php if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){ ?>
+				<button type="button" class="close text-dark m-1" ng-click="removeFromLobby(user)" >
+		    		<span aria-hidden="true">&times;</span>
+				</button>
+				<?php }; ?>
 				</div>
 
 			</div>

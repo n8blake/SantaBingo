@@ -10,9 +10,8 @@
 	$handler = new DBSessionHandler();
 	session_set_save_handler($handler);
 	session_start();
-
+	header('Content-Type: application/json');
 	if ( !isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true ) {
-		header('Content-Type: application/json');
 		$status = "Unauthenticated access attempt.";
 		$response = array('status' => $status);
 		echo json_encode($response);
@@ -28,6 +27,14 @@
 	require_once 'gameManager.php';
 
 	$lobbyManager = new LobbyManager();
+	
+	if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){
+		if(isset($_POST['REMOVE_USER'])) {
+			$email = htmlspecialchars($_POST['REMOVE_USER']);
+			$lobbyManager->removeUserFromLobby($email);
+		}
+	}
+
 	$gameManager = new gameManager();
 
 	if(!$lobbyManager->userInLobby($_SESSION['email']) && !$gameManager->userInGame($_SESSION['email'])){
@@ -36,7 +43,7 @@
 
 	$lobby = $lobbyManager->getLobby();
 	
-	header('Content-Type: application/json');
+	
 	echo json_encode($lobby);
 
 ?>

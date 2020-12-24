@@ -43,6 +43,16 @@ class LobbyManager
 		}
 	}
 
+	public function removeUserFromLobby($email){
+		$email = $this->db->quote($email);
+		$sql = "DELETE FROM `lobby` WHERE userID=(SELECT userID from `users` WHERE users.email=".$email.")";
+		try {
+			$result = $this->db->query($sql);
+		} catch (PDOException $e) {
+			return $e->getMessage();
+		}
+	}
+
 	// Return a list of users in the lobby
 	public function getLobby(){
 		$sql = "SELECT lobby.userID as userID, users.name as name, users.role as role, users.email as email FROM lobby JOIN `users` ON users.userID=lobby.userID";

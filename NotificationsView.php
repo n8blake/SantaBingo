@@ -1,7 +1,8 @@
-<div ng-controller="NotificationCtrl" style="width: 100%; text-align: center;" ng-cloak="">
+<div ng-controller="NotificationCtrl" style="width: 100%; text-align: center;" >
+	
 	<div ng-hide="notification.type == 'win'"><strong>{{game.status}}</strong></div>
 	<div class="alert alert-dismissible fade show" id="notificationAlert" role="alert" style="background-color: #ADD9AA;" ng-show="alertShow">
-		<strong class="text-dark" ng-repeat="winner in notification.winners"><div>{{winner.name}} got SANTA<span ng-if="winner.bingoCount > 1"> {{winner.bingoCount}} times</span>!</div></strong>
+		<strong class="text-dark" ng-repeat="winner in notification.winners"><div>{{winner.name}} got SANTA<span ng-if="(winner.bingoCount > 1) && (notification.gameType == 'bingo')"> {{winner.bingoCount}} times</span><span ng-if="notification.gameType != 'bingo'"> {{notification.gameType}}</span>!</div></strong>
 		
 		<button type="button" class="close text-dark" ng-click="readNotifications()">
 		    <span aria-hidden="true">&times;</span>

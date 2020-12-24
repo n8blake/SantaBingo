@@ -114,7 +114,11 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		});
 	}
 
-
+	$scope.removeFromLobby = function(user){
+		lobby.removeUser(user.email).then(function(){
+			refreshLobby();
+		});
+	}
 
 	//$scope.number = 5;
 
@@ -165,6 +169,7 @@ app.factory('game', ['$q', '$http', function($q, $http){
 	var status = "Ho, ho, ho! Merry Christmas!";
 	var active;
 	var game = {};
+	var types = [];
 	var lobby = {};
 	var players = {};
 	var bingos = [];
@@ -177,6 +182,10 @@ app.factory('game', ['$q', '$http', function($q, $http){
 
 	obj.getGameObject = function(){
 		return game;
+	}
+
+	obj.getTypes = function(){
+		return types;
 	}
 
 	obj.isActive = function(){
@@ -237,6 +246,7 @@ app.factory('game', ['$q', '$http', function($q, $http){
 				game = response.data.game;
 				players = response.data.players;
 				bingos = response.data.bingos;
+				types = response.data.game.types;
 				//notifications.setRawData(bingos);
 			}
 			if(response.data.active){
@@ -308,6 +318,12 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 		return lobby;
 	}
 
+	obj.removeUser = function(email){
+		var data = {};
+		data.REMOVE_USER = email;
+		return _lobbyPost(data);
+	}
+
 	obj.getLobbyXHR = function(){
 		//console.log("Getting Lobby");
 		return $http({
@@ -320,6 +336,21 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 			console.log(response);
 		});
 	}
+
+	function _lobbyPost(data) {
+		url = 'getLobby.php'
+		return $http.post(url, data).then(
+			function successCallback(response){
+				//console.log(response);
+				//obj.getStatusXHR();
+				// response.data;
+			},
+			function errorCallback(response){
+				console.log(response.data);
+			}
+		);
+	}
+
 	return obj;
 }]);
 

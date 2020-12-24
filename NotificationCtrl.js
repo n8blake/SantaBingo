@@ -24,8 +24,9 @@ app.controller('NotificationCtrl', ['$scope','$interval', 'game', 'notificaitons
 			$scope.unread = notificaitons.getUnread();
 			$scope.read = notificaitons.getRead();
 			$scope.players = notificaitons.getPlayers();
-
 			$scope.notification = {};
+			$scope.notification.gameType = game.getTypes()[0];
+			
 			$scope.notification.winners = [];
 
 			for(var i = 0; i < $scope.players.length; i++){
@@ -52,6 +53,8 @@ app.controller('NotificationCtrl', ['$scope','$interval', 'game', 'notificaitons
 			if($scope.notification.winners.length > 0){
 				$scope.notification.title = "Winner!";
 				$scope.notification.type = 'win';
+				
+				$scope.notification.gameType = game.getTypes()[0];
 				$scope.alertShow = true;
 				//$('#notificationAlert').alert();
 				//$('#notificationModal').modal('show');
