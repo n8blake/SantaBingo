@@ -27,7 +27,7 @@ class CredentialsHandler {
 
 
 	public function validate($email){
-		echo "Validating <br>";
+		//echo "Validating <br>";
 		//SELECT hash from `users` WHERE email=$email
 		$sql = "SELECT `userID` FROM `users` WHERE `email` =". $this->db->quote($email);
 		//$sql = "SELECT * FROM users";
