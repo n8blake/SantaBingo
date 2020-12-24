@@ -88,7 +88,7 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 	
 	$interval(refreshLobby, 10000);
 	$interval(refreshGameStatus, 300);
-	//$interval(refreshPlayers, 10000);
+	$interval(refreshPlayers, 10000);
 	getUser();
 	
 	refreshLobby();
@@ -98,7 +98,21 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		$scope.cards = cards.getCards();
 	});
 
-	
+
+	$scope.removingUser = {};
+
+	$scope.setRemovingUser = function(user){
+		//console.log(user);
+		$scope.removingUser = user;
+	}
+
+	$scope.removePlayerFromGame = function(){
+		console.log($scope.removingUser.email);
+		$('#removeUserModal').modal('hide');
+		game.removePlayer($scope.removingUser.email).then(function(){
+			refreshPlayers();
+		});
+	}
 
 
 
@@ -261,6 +275,12 @@ app.factory('game', ['$q', '$http', function($q, $http){
 		return _gameStatusPost(data);
 	}
 
+	obj.removePlayer = function(email){
+		data = {};
+		data.REMOVE_PLAYER = email;
+		return _gameStatusPost(data);
+	}
+
 	function _gameStatusPost(data) {
 		url = 'gameStatus.php'
 		return $http.post(url, data).then(
@@ -328,7 +348,6 @@ app.factory('user', ['$http', function($http){
 	}
 	return obj;
 }]);
-
 
 
 

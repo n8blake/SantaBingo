@@ -264,7 +264,7 @@
 
 		public function checkCard($type, $card){
 			switch ($type) {
-				case 'xes':
+				case 'X':
 					return $this->xes($card);
 					break;
 				case 'window':

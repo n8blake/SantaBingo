@@ -61,6 +61,11 @@
 			$game->setType($type);
 			$gameManager->update($game);
 		}
+		if($active && isset($_POST['REMOVE_PLAYER'])){
+			$player = htmlspecialchars($_POST['REMOVE_PLAYER']);
+			$gameManager->removePlayerFromGame($player);
+			
+		}
 		if($active && isset($_POST['END']) && isset($_SESSION['role'])){
 			$gameManager->end($game);
 			// empty activeGamePlayers and put users in lobby

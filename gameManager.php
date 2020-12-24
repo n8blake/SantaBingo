@@ -115,6 +115,17 @@ class GameManager {
 		return false;
 	}
 
+	public function removePlayerFromGame($email){
+		$email = $this->db->quote($email);
+		$sql = "DELETE FROM `activeGamePlayers` WHERE userID=(SELECT userID from `users` WHERE users.email=".$email.")";
+		try {
+			$result = $this->db->query($sql);
+		} catch (PDOException $e) {
+			return $e->getMessage();
+		}
+	}
+
+
 	// update a game
 	public function update($game){
 		///echo "<br> Updating game: " . $game->gameID .". <br>";

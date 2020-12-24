@@ -71,6 +71,7 @@ app.controller('GameCtrl', ['$scope', '$interval', 'game', 'cards', 'user', func
 		});
 	}
 
+
 	function refreshGame(){
 		return game.getStatusXHR().then(function(){
 			if($scope.game.status != game.getStatus()){

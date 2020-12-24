@@ -55,8 +55,8 @@
 					ng-class="{'btn-dark':(activeGameType == 'bingo'), 'btn-outline-dark':(activeGameType != 'bingo')}" 
 					style="width: 24%;" ng-click="setActiveGameType('bingo')">BINGO</button>
 					<button class="btn " 
-					ng-class="{'btn-dark':(activeGameType == 'xes'), 'btn-outline-dark':(activeGameType != 'xes')}"
-					style="width: 24%;" ng-click="setActiveGameType('xes')">X</button>
+					ng-class="{'btn-dark':(activeGameType == 'X'), 'btn-outline-dark':(activeGameType != 'X')}"
+					style="width: 24%;" ng-click="setActiveGameType('X')">X</button>
 					<button class="btn " 
 					ng-class="{'btn-dark':(activeGameType == 'window'), 'btn-outline-dark':(activeGameType != 'window')}"
 					style="width: 24%;" ng-click="setActiveGameType('window')">WINDOW</button>
