@@ -27,16 +27,17 @@ class CredentialsHandler {
 
 
 	public function validate($email){
-		// echo "Validating <br>";
+		echo "Validating <br>";
 		//SELECT hash from `users` WHERE email=$email
 		$sql = "SELECT `userID` FROM `users` WHERE `email` =". $this->db->quote($email);
 		//$sql = "SELECT * FROM users";
 
+		
 		$result = $this->db->query($sql);
 		$data = $result->fetch(PDO::FETCH_ASSOC);
 
 		if ($data) {
-			true;
+			return true;
 		} 
 		return false;
 	}
@@ -64,7 +65,7 @@ class CredentialsHandler {
 		//$h = password_hash($password, PASSWORD_DEFAULT);
 		//$hash = $this->db->quote($h);
 		$sql = "INSERT INTO `users`(`email`, `name`) VALUES (". $email . "," . $name . ")";
-
+		echo $sql;
 		try {
 			return $this->db->query($sql);
 		} catch (PDOException $e) {

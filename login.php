@@ -13,12 +13,17 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 }
 
 $email = "";
-$password = "";
+$name = "";
 
-if (isset($_POST['email'])) {
-	
+if (isset($_POST['email'])) {	
     if (!empty($_POST['email'])) {
         $email = $_POST['email'];
+    }
+}
+
+if (isset($_POST['name'])) {	
+    if (!empty($_POST['name'])) {
+        $name = $_POST['name'];
     }
 }
 
@@ -26,7 +31,7 @@ if (isset($_POST['email'])) {
 if ($email != "") {
 	$credentialsHandler = new CredentialsHandler();
 
-    if ($credentialsHandler->validate($email, $password)) {
+    if ($credentialsHandler->validate($email)) {
 
 		$handler = new DBSessionHandler();
 		session_set_save_handler($handler);
@@ -39,15 +44,27 @@ if ($email != "") {
         $userManager = new UserManager();
         if(isset($_SESSION['email'])){
 			if(!isset($_SESSION['role'])){
-					$_SESSION['userObject'] = $userManager->getUserByEmail($_SESSION['email']);
-					$_SESSION['role'] =  $_SESSION['userObject']['role'];
-				}
+				$_SESSION['userObject'] = $userManager->getUserByEmail($_SESSION['email']);
+				$_SESSION['role'] =  $_SESSION['userObject']['role'];
+			}
 		}
 		$GLOBALS['loggingIn'] = true;
         header("location: index.php");
 
-    } else {
-        $showError = true;
+    } else if($name != ""){
+        $credentialsHandler->new($email, $name);
+	    if ($credentialsHandler->validate($email)) {
+			$handler = new DBSessionHandler();
+			session_set_save_handler($handler);
+	        session_start();
+
+	        $_SESSION["loggedin"] = true;
+	        $_SESSION['email'] = $email;
+       		header("location: index.php");
+       		exit;
+	    } else {
+	    	$showError = true;
+	    }
     }
 }
 
@@ -84,12 +101,12 @@ if ($email != "") {
 
 	<div ng-if="!isLoggedIn" class="text-center">
 		
-		<form class="form-signin" method="post" action="login.php" ng-if="(action == 'SIGN IN')">
-			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+		<form class="form-signin" method="post" action="login.php" >
+			<h1 class="h3 mb-3 font-weight-normal">COME JOIN THE PARTY!</h1>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+			<label for="loginName" class="sr-only">Name</label>
+			<input type="text" id="loginName" name="name" class="form-control" placeholder="Name" required>
 
 			<button class="btn btn-lg btn-outline-light btn-block" type="submit">{{action}}</button>
 
@@ -98,38 +115,12 @@ if ($email != "") {
 			<?php
 
  			if($showError){
- 				echo "<br><div class='alert alert-danger'><strong>Oops!</strong> <p>There was a problem logging you in.</p></div>";
-
+ 				echo "<br><div class='alert alert-danger'><strong>Oops!</strong> <p>There was a problem logging you in. Make sure you have a name filled in.</p></div>";
  			}
 
 		?>
 
 		</form>
-
-
-
-		<form class="form-signin needs-validation" method="post" action="newAccount.php" ng-show="(action == 'CREATE NEW ACCOUNT')">
-			<h1 class="h3 mb-3 font-weight-normal">Create a new account</h1>
-			<label for="newEmail" class="sr-only">Email address</label>
-			<input type="email" id="newEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
-			<label for="name" class="sr-only">Name</label>
-			<input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
-			<label for="newPassword" class="sr-only">Password</label>
-			<input type="password" id="newPassword" name="password" class="form-control" placeholder="Password" required ng-model="newPassword" ng-blur="validate()">
-			<label for="inputPasswordVerification" class="sr-only">Verifty Password</label>
-			<input type="password" id="inputPasswordVerification" name="passwordVerification" class="form-control" placeholder="Verify Password" required ng-model="newPasswordVerification" >
-			<button class="btn btn-lg btn-outline-light btn-block" type="submit" ng-disabled="newPasswordVerification != newPassword">{{action}}</button>
-		</form>
-		<div class="m-2" ng-hide="(action == 'CREATE NEW ACCOUNT')">
-			<p>OR</p>
-			<a href="#" class="text-light" ng-click="toggleAction()" >CREATE A NEW ACCOUNT</a>
-			
-		</div>
-		<div class="m-2" ng-hide="(action == 'SIGN IN')">
-			<p>OR</p>
-			<a href="#" class="text-light" ng-click="toggleAction()" >SIGN IN</a>
-			
-		</div>
 
 	</div>
 </div>

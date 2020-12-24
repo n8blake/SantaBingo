@@ -13,24 +13,13 @@
 	}
 
 	$email = "";
-	$password = "";
-	$passwordVerification = "";
 	$name = "";
 
-	if (isset($_POST['email']) && 
-		isset($_POST['name']) && 
-		isset($_POST['password']) && 
-		isset($_POST['passwordVerification'])) {
+	if (isset($_POST['email']) && isset($_POST['name']) ) {
 		
-	    if (!empty($_POST['email']) && 
-	    	!empty($_POST['name']) &&
-	    	!empty($_POST['password']) && 
-	    	!empty($_POST['passwordVerification']) &&
-	    	$_POST['password'] == $_POST['passwordVerification']) {
+	    if (!empty($_POST['email']) && !empty($_POST['name']) ) {
 	        $email = $_POST['email'];
 	    	$name = $_POST['name'];
-	        $password = $_POST['password'];
-	        $verification = $_POST['passwordVerification'];
 	    } else {
 	    	header("location: login.php?error=true");
 			exit;
@@ -38,10 +27,10 @@
 	}
 
 	// Create New Account and log them in...
-	if ($email != "" && $password != "" && $name != "") {
+	if ($email != "" && $name != "") {
 		$credentialsHandler = new CredentialsHandler();
-		$credentialsHandler->new($email, $name, $password);
-	    if ($credentialsHandler->validate($email, $password)) {
+		$credentialsHandler->new($email, $name);
+	    if ($credentialsHandler->validate($email)) {
 			$handler = new DBSessionHandler();
 			session_set_save_handler($handler);
 	        session_start();

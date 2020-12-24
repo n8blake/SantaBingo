@@ -10074,10 +10074,12 @@ p, .fw-300 {
   border-bottom-left-radius: 0;
 }
 
-#inputPasswordVerification {
+#loginName {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .logoHero {
