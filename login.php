@@ -15,16 +15,15 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 $email = "";
 $password = "";
 
-if (isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['email'])) {
 	
-    if (!empty($_POST['email']) && !empty($_POST['password'])) {
+    if (!empty($_POST['email'])) {
         $email = $_POST['email'];
-        $password = $_POST['password'];
     }
 }
 
 // Verify credentials
-if ($email != "" && $password != "") {
+if ($email != "") {
 	$credentialsHandler = new CredentialsHandler();
 
     if ($credentialsHandler->validate($email, $password)) {
@@ -79,7 +78,8 @@ if ($email != "" && $password != "") {
 <body class="bg-grad-red" ng-app="LoginApp">
 <div ng-controller="AppCtrl">
 	<div class="d-flex justify-content-center">
-		<h1>SANTA BINGO</h1>
+		<!--<h1>SANTA BINGO</h1>-->
+		<img class="logoHero" src="./SVG/SB_logo_red.svg" ng-if="!game.active">
 	</div>
 
 	<div ng-if="!isLoggedIn" class="text-center">

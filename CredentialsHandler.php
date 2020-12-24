@@ -25,29 +25,45 @@ class CredentialsHandler {
 
 	}
 
-	public function validate($email, $password){
+
+	public function validate($email){
 		// echo "Validating <br>";
 		//SELECT hash from `users` WHERE email=$email
-		$sql = "SELECT hash FROM `users` WHERE `email` =". $this->db->quote($email);
+		$sql = "SELECT `userID` FROM `users` WHERE `email` =". $this->db->quote($email);
 		//$sql = "SELECT * FROM users";
 
 		$result = $this->db->query($sql);
 		$data = $result->fetch(PDO::FETCH_ASSOC);
 
 		if ($data) {
-			if($data['hash']){
-				return password_verify($password, $data['hash']);
-			}
+			true;
 		} 
 		return false;
 	}
 
-	public function new($email, $name, $password){
+	// public function validate($email, $password){
+	// 	// echo "Validating <br>";
+	// 	//SELECT hash from `users` WHERE email=$email
+	// 	$sql = "SELECT hash FROM `users` WHERE `email` =". $this->db->quote($email);
+	// 	//$sql = "SELECT * FROM users";
+
+	// 	$result = $this->db->query($sql);
+	// 	$data = $result->fetch(PDO::FETCH_ASSOC);
+
+	// 	if ($data) {
+	// 		if($data['hash']){
+	// 			return password_verify($password, $data['hash']);
+	// 		}
+	// 	} 
+	// 	return false;
+	// }
+
+	public function new($email, $name){
 		$email = $this->db->quote($email);
 		$name = $this->db->quote($name);
-		$h = password_hash($password, PASSWORD_DEFAULT);
-		$hash = $this->db->quote($h);
-		$sql = "INSERT INTO `users`(`email`, `name`, `hash`) VALUES (". $email . "," . $name . "," . $hash .")";
+		//$h = password_hash($password, PASSWORD_DEFAULT);
+		//$hash = $this->db->quote($h);
+		$sql = "INSERT INTO `users`(`email`, `name`) VALUES (". $email . "," . $name . ")";
 
 		try {
 			return $this->db->query($sql);
@@ -55,6 +71,20 @@ class CredentialsHandler {
 			return $e->getMessage();
 		}
 	}
+
+	// public function new($email, $name, $password){
+	// 	$email = $this->db->quote($email);
+	// 	$name = $this->db->quote($name);
+	// 	$h = password_hash($password, PASSWORD_DEFAULT);
+	// 	$hash = $this->db->quote($h);
+	// 	$sql = "INSERT INTO `users`(`email`, `name`, `hash`) VALUES (". $email . "," . $name . "," . $hash .")";
+
+	// 	try {
+	// 		return $this->db->query($sql);
+	// 	} catch (PDOException $e) {
+	// 		return $e->getMessage();
+	// 	}
+	// }
 
 	// update password for email
 	public function update($email, $password){
