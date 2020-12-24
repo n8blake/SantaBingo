@@ -9974,17 +9974,23 @@ p, .fw-300 {
 }
 
 .bg-grad-red {
-  background-image: linear-gradient(#0a0000 0%, #0f0200 80%, #230301 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #230000), color-stop(80%, #320800), color-stop(100%, #5E0805));
-  background: -webkit-linear-gradient(top, #0a0000 0%, #0f0200 80%, #230301 100%);
+  background-image: linear-gradient(#140300 0%, #230301 80%, #370301 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #150300), color-stop(80%, #1C0201), color-stop(100%, #370301));
+  background: -webkit-linear-gradient(top, #140300 0%, #230301 80%, #370301 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
 .bg-grad-green {
-  background-image: linear-gradient(#000504 0%, #000a05 60%, #001403 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #230000), color-stop(80%, #320800), color-stop(100%, #5E0805));
-  background: -webkit-linear-gradient(top, #000504 0%, #000a05 60%, #001403 100%);
+  background-image: linear-gradient(#001704 0%, #011e06 80%, #022808 100%);
+  /*background: -webkit-gradient(linear, left top, left bottom, 
+  	color-stop(0%,#230000), 
+  	color-stop(80%,#320800), 
+  	color-stop(100%,#5E0805)); 
+  background: -webkit-linear-gradient(top,  
+  	rgba(0,5,4,1) 0%,
+  	rgba(0,10,5,1) 60%, 
+  	rgba(0,20,3,1) 100%);*/
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -10072,6 +10078,13 @@ p, .fw-300 {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.logoHero {
+  max-width: 40%;
+  max-height: 40%;
+  width: 300px;
+  height: 75px;
 }
 
 /*.modal-content {
