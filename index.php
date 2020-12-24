@@ -51,7 +51,7 @@
 </head>
 <body class="bg-grad-red" ng-app="SBApp">
 <div ng-controller="AppCtrl" ng-cloak="">
-	<div class="snowflakes" aria-hidden="true" ng-if="snowing">
+	<div class="snowflakes" aria-hidden="true" ng-if="!game.active">
 		<div class="snowflake" ng-repeat="x in [].constructor(snowflakes) track by $index">❅</div>
 	</div>	
 
