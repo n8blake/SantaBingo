@@ -6,7 +6,7 @@
 	require_once 'DBSessionHandler.php';
 	require_once 'LobbyManager.php';
 
-	$error = "";
+	$errors = array();
 
 	try{
 		$handler = new DBSessionHandler();
@@ -33,7 +33,7 @@
 		try {
 			$lobbyManager->addUser($_SESSION['email']);
 		} catch (Exception $e){
-			$error = $e->getMessage();
+			array_push($errors, $e->getMessage());
 		}
 	}
 
@@ -43,6 +43,7 @@
 		$game->setGame($gameManager->getCurrentGame());
 	} catch (Exception $e){
 		$game = false;
+		array_push($errors, $e->getMessage());
 	}
 
 	$active = false;
@@ -88,13 +89,28 @@
 		require_once 'CardManager.php';
 		$status = "A game is in progress. Game type: " . $game->types[0];
 		$cardManager = new CardManager();
-		$players = $gameManager->getActiveGamePlayers();
-		$bingos = $game->checkForBingos($players, $cardManager);
+		try {
+			$players = $gameManager->getActiveGamePlayers();
+		} catch (Exception $e){
+			$players = [];
+			array_push($errors, $e->getMessage());
+		}
+		try {
+			if($players){
+				$bingos = $game->checkForBingos($players, $cardManager);
+			} else {
+				$bingos = [];
+			}	
+		} catch (Exception $e){
+			$bingos = [];
+			array_push($errors, $e->getMessage());
+		}
+		
 		$response = array('game' => $game, 'status' => $status, 'lobby' => $lobby, 'players' => $players, 'bingos' => $bingos, 'active' => $active);
 	}
 
-	if(isset($error)){
-		$response['error'] = $error;
+	if(count($errors) > 0){
+		$response['error'] = $errors;
 	}
 
 	echo json_encode($response);

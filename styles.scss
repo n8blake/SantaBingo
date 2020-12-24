@@ -203,6 +203,36 @@ p, .fw-300 {
   text-shadow: 0 0 5px #000;
 }
 
+.lobbyTitle {
+	font-weight: 300;
+	color: #FF000066;
+}
+
+.lobbyTitleActive {
+	color: #ADD9AA66;
+}
+
+
+.lobbyListItem {
+	background-color: #00000000; 
+	background: none; 
+	font-weight: 300; 
+	font-size: 16pt;
+	border-bottom: 1px solid;
+	border-color: #FF000033;
+	padding: 0.75em;
+	margin-left: 0.25em;
+	margin-right: 0.25em;
+}
+
+.lobbyListItemActive {
+	border-color: #ADD9AA66;
+}
+
+.lobbyListItemInactive {
+	border-color: #FF000033;
+}
+
 table.bingoCard{
 	width: 100%;
 	height: 100%;
@@ -242,6 +272,7 @@ td.bingoCell:hover{
 }
 td.bingoCell.called:hover{
 	background-color: #ADD9AA;
+	cursor: pointer;
 }
 
 td.bingoCell img {

@@ -125,6 +125,17 @@ class GameManager {
 		}
 	}
 
+	public function addPlayerToGame($email){
+		$email = $this->db->quote($email);
+		$sql = "INSERT INTO `activeGamePlayers` (`userID`) VALUES ((SELECT userID from `users` WHERE users.email=".$email."))";
+		try {
+			$result = $this->db->query($sql);
+			return $result;
+		} catch (PDOException $e) {
+			return $e->getMessage();
+		}
+	}
+
 
 	// update a game
 	public function update($game){

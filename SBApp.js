@@ -106,17 +106,27 @@ app.controller('AppCtrl', ['$scope', '$http', '$interval', 'lobby', 'game', 'use
 		$scope.removingUser = user;
 	}
 
-	$scope.removePlayerFromGame = function(){
-		console.log($scope.removingUser.email);
-		$('#removeUserModal').modal('hide');
-		game.removePlayer($scope.removingUser.email).then(function(){
+	$scope.removePlayerFromGame = function(user){
+		console.log(user);
+		console.log(user.email);
+		//$('#removeUserModal').modal('hide');
+		game.removePlayer(user.email).then(function(){
 			refreshPlayers();
+			refreshLobby();
 		});
 	}
 
 	$scope.removeFromLobby = function(user){
 		lobby.removeUser(user.email).then(function(){
 			refreshLobby();
+		});
+	}
+
+	$scope.addUserToGame = function(user){
+		console.log(user);
+		lobby.addUserToGame(user.email).then(function(){
+			refreshLobby();
+			refreshPlayers();
 		});
 	}
 
@@ -324,6 +334,12 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 		return _lobbyPost(data);
 	}
 
+	obj.addUserToGame = function(email){
+		var data = {};
+		data.ADD_USER_TO_GAME = email;
+		return _lobbyPost(data);
+	}
+
 	obj.getLobbyXHR = function(){
 		//console.log("Getting Lobby");
 		return $http({
@@ -341,7 +357,7 @@ app.factory('lobby', ['$q', '$http', function($q, $http){
 		url = 'getLobby.php'
 		return $http.post(url, data).then(
 			function successCallback(response){
-				//console.log(response);
+				console.log(response);
 				//obj.getStatusXHR();
 				// response.data;
 			},

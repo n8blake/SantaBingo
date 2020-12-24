@@ -27,15 +27,23 @@
 	require_once 'gameManager.php';
 
 	$lobbyManager = new LobbyManager();
-	
+	$gameManager = new gameManager();
+
 	if($_SESSION['role'] == 'overlord' || $_SESSION['role'] == 'manager'){
 		if(isset($_POST['REMOVE_USER'])) {
 			$email = htmlspecialchars($_POST['REMOVE_USER']);
 			$lobbyManager->removeUserFromLobby($email);
 		}
+		if(isset($_POST['ADD_USER_TO_GAME'])) {
+			$email = htmlspecialchars($_POST['ADD_USER_TO_GAME']);
+			$lobby = $lobbyManager->removeUserFromLobby($email);
+			$result = $gameManager->addPlayerToGame($email);
+			echo json_encode($result);
+			exit;
+		}
 	}
 
-	$gameManager = new gameManager();
+	
 
 	if(!$lobbyManager->userInLobby($_SESSION['email']) && !$gameManager->userInGame($_SESSION['email'])){
 		$lobbyManager->addUser($_SESSION['email']);
